@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+lua Mant/main.lua $1 $2 $3 $4 $5

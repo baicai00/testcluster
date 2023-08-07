@@ -1,0 +1,20 @@
+[
+    {
+        "hostname": "localhost.localdomain",
+        "services" : [
+            {
+                "name": "node1",
+                "node_list" : [
+                    {"service_id": 1, "ip": "127.0.0.1", "port": 3528, "online": true},
+                    {"service_id": 2, "ip": "127.0.0.1", "port": 3529, "is_bak": true, "online": false}
+                ]
+            },
+            {
+                "name": "node2",
+                "node_list": [
+                    {"service_id": 3, "ip": "127.0.0.1", "port": 3535, "online": true}
+                ]
+            }
+        ]
+    }
+]

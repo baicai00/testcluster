@@ -1,0 +1,43 @@
+-- 启动时变化
+service_name = "$service_name"
+is_daemon = $daemon
+lua_service = "$lua_service"
+service_id = $service_id
+
+proj_root = "/root/myprogram/skynet_test/testcluster/"
+lua_root = "/root/myprogram/skynet_test/testcluster/lua/"
+skynet_root = "/root/myprogram/skynet_test/testcluster/publish/skynet/"
+
+--基本配置
+thread = 8
+logger = nil
+harbor = 0
+start = lua_service
+bootstrap = "snlua bootstrap"	-- The service for bootstrap
+lualoader = skynet_root.."lualib/loader.lua"
+preload = lua_root .. "global/preload.lua"
+
+lua_cpath = skynet_root .. "luaclib/?.so;"
+cpath = skynet_root .. "cservice/?.so;" .. skynet_root .. "luaclib/?.so;"..proj_root.."publish/service/?.so;"
+
+lua_path = skynet_root .. "lualib/?.lua;" ..skynet_root.."lualib/?/?.lua;"
+.. lua_root .. "?.lua;" .. lua_root .. "global/?.lua;" .. lua_root .. "lib/?.lua;"
+.. lua_root .. "node1/?.lua;"
+.. lua_root .. "node2/?.lua;"
+
+luaservice = skynet_root .. "service/?.lua;" .. lua_root .. "?.lua;"
+.. lua_root .. "node1/?.lua;"
+.. lua_root .. "node2/?.lua;"
+
+cluster = proj_root .. "env/config.cluster"
+
+log_dir = proj_root.."publish/log"
+logbufsecs = 0
+
+
+if is_daemon then
+    log_name = service_name .. service_id
+    daemon = proj_root.."publish/pid/" .. service_name .. service_id .. ".pid"
+else
+    log_name = "stdout"
+end

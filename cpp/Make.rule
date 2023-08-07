@@ -1,0 +1,16 @@
+SERVER_ROOT ?= /root/myprogram/skynet_test/testcluster
+
+OUTPUT_PATH = ${SERVER_ROOT}/publish/service
+SRC_PATH = ${SERVER_ROOT}/cpp
+SKYNET_ROOT = ${SERVER_ROOT}/3rd/skynet/
+
+SYSTEM_DIR = /usr/include
+
+CFLAGS += -fPIC -Wall -g -O0
+CXXFLAGS += -fPIC -Wall -g -O0 -fdiagnostics-color=auto -std=c++11
+LIBS += -L$(OUTPUT_PATH) \
+		-lglog \
+
+INC += -I${SRC_PATH} \
+	-I${SYSTEM_DIR}
+
