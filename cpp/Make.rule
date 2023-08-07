@@ -1,4 +1,4 @@
-SERVER_ROOT ?= /root/myprogram/skynet_test/testcluster
+SERVER_ROOT ?= /root/testcluster
 
 OUTPUT_PATH = ${SERVER_ROOT}/publish/service
 SRC_PATH = ${SERVER_ROOT}/cpp

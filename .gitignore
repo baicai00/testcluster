@@ -30,4 +30,4 @@
 *.app
 
 publish/log/*
-publish/pid/*
+publish/pid/*.pid

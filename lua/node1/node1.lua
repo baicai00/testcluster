@@ -32,16 +32,16 @@ skynet.start(function()
     -- skynet.error("name:", name, "unpack_msg:", tostring(unpack_msg))
 
     while true do
-        skynet.error("============")
         -- local status, proxy = pcall(cluster.proxy, "node2_3", "@node2")
         -- if status then
         --     local ret = skynet.call(proxy, "lua", "ping")
         --     skynet.error(ret)
         -- end
-        local status, ret = pcall(cluster.call, "node2_3", "@node2", "ping")
+        local status, node2 = pcall(cluster.query, "node2_3", "node2")
         if not status then
-            skynet.error("pcall cluster.call error:", ret)
+            skynet.error("pcall cluster.call error:", node2)
         else
+            local ret = cluster.call("node2_3", node2, "ping")
             skynet.error(ret)
         end
         skynet.sleep(100)

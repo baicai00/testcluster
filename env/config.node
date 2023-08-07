@@ -4,9 +4,9 @@ is_daemon = $daemon
 lua_service = "$lua_service"
 service_id = $service_id
 
-proj_root = "/root/myprogram/skynet_test/testcluster/"
-lua_root = "/root/myprogram/skynet_test/testcluster/lua/"
-skynet_root = "/root/myprogram/skynet_test/testcluster/publish/skynet/"
+proj_root = "/root/testcluster/"
+lua_root = "/root/testcluster/lua/"
+skynet_root = "/root/testcluster/publish/skynet/"
 
 --基本配置
 thread = 8
