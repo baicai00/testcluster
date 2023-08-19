@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <glog/logging.h>
+#include "../common/AliyunLog.h"
 #include <string>
 
 class logger
@@ -35,6 +36,58 @@ static int _logger(struct skynet_context * context, void *ud, int type, int sess
     snprintf(test, testlen, "%.*s", testlen-1, data);
     std::string prefix_name = test;
     //LOG(INFO) << " prefix_name:" << prefix_name;
+    if (prefix_name == "BEEI")
+    {
+        strsep(&data, " "); // 去掉"BEEI"标识
+        if (source != 0)
+        {
+            sprintf(temp, "[%08x] ", source);
+            LOG(INFO) << temp << data;
+        }
+        else
+        {
+            LOG(INFO) << data;
+        }
+    }
+    else if (prefix_name == "BEEW")
+    {
+        strsep(&data, " ");
+        if (source != 0)
+        {
+            sprintf(temp, "[%08x] ", source);
+            LOG(WARNING) << temp << data;
+        }
+        else
+        {
+            LOG(WARNING) << data;
+        }
+    }
+    else if (prefix_name == "BEEE")
+    {
+        strsep(&data, " ");
+        if (source != 0)
+        {
+            sprintf(temp, "[%08x] ", source);
+            LOG(ERROR) << temp << data;
+        }
+        else
+        {
+            LOG(ERROR) << data;
+        }
+    }
+    else
+    {
+        if (source != 0)
+        {
+            sprintf(temp, "[%08x] ", source);
+            LOG(INFO) << temp << data;
+        }
+        else
+        {
+            LOG(INFO) << data;
+        }
+    }
+    /*
 	if (source != 0)
 	{
 		sprintf(temp, "[%08x] ", source);
@@ -44,6 +97,7 @@ static int _logger(struct skynet_context * context, void *ud, int type, int sess
 	{
 		LOG(INFO) << (const char*)msg;
 	}
+    */
 
 	return 0;
 }
@@ -61,6 +115,7 @@ int	logger_init(struct logger * inst, struct skynet_context *ctx, const char * p
 	FLAGS_logbufsecs = logbufsecs;
 	FLAGS_max_log_size = 10; // 单位M
 	google::InitGoogleLogging(name);
+	log_producer_post_logs();
 	skynet_callback(ctx, inst, _logger);
 	skynet_command(ctx, "REG", ".logger");
 	return 0;
