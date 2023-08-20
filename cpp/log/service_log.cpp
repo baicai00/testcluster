@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <glog/logging.h>
-#include "../common/AliyunLog.h"
 #include <string>
 
 class logger
@@ -115,7 +114,7 @@ int	logger_init(struct logger * inst, struct skynet_context *ctx, const char * p
 	FLAGS_logbufsecs = logbufsecs;
 	FLAGS_max_log_size = 10; // 单位M
 	google::InitGoogleLogging(name);
-	log_producer_post_logs();
+	// log_producer_post_logs();
 	skynet_callback(ctx, inst, _logger);
 	skynet_command(ctx, "REG", ".logger");
 	return 0;

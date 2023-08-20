@@ -36,8 +36,8 @@ skynet.start(function()
     while true do
         local status, proxy = pcall(cluster.proxy, "node2_3", "@node2")
         if status then
-            local ret = skynet.call(proxy, "lua", "ping")
-            beelog_info(ret)
+            -- local ret = skynet.call(proxy, "lua", "ping")
+            -- beelog_info(ret)
 
             skynet.send(proxy, "text", pack_msg)
         end
