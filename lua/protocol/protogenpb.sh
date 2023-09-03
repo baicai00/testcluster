@@ -9,8 +9,7 @@ fi
 INNER_IMPORT="./"
 PUB_IMPORT="$1"
 
-# protofiles=`ls $INNER_IMPORT/*.proto $PUB_IMPORT/*.proto`
-protofiles=`ls $INNER_IMPORT/*.proto`
+protofiles=`ls $INNER_IMPORT/*.proto $PUB_IMPORT/*.proto`
 
 rm -rf *.pb  ./pb/*.pb
 

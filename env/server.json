@@ -3,16 +3,28 @@
         "hostname": "localhost.localdomain",
         "services" : [
             {
-                "name": "node1",
+                "name": "lobby",
                 "node_list" : [
-                    {"service_id": 1, "ip": "127.0.0.1", "port": 3528, "online": true},
-                    {"service_id": 2, "ip": "127.0.0.1", "port": 3529, "is_bak": true, "online": false}
+                    {"service_id": 1, "ip": "127.0.0.1", "port": 3528, "debug_port":13528, "online": true},
+                    {"service_id": 2, "ip": "127.0.0.1", "port": 3529, "debug_port":13529, "is_bak": true, "online": false}
                 ]
             },
             {
-                "name": "node2",
+                "name": "lpersistence",
                 "node_list": [
-                    {"service_id": 3, "ip": "127.0.0.1", "port": 3535, "online": true}
+                    {"service_id": 3, "ip": "127.0.0.1", "port": 3535, "debug_port":13535, "online": true}
+                ]
+            },
+            {
+                "name": "shop_master",
+                "node_list":[
+                    {"service_id": 4, "ip": "127.0.0.1", "port": 3537, "debug_port":13537, "online": true}
+                ]
+            },
+            {
+                "name": "activity_master",
+                "node_list":[
+                    {"service_id": 5, "ip":"127.0.0.1", "port":3539, "debug_port":13539, "online": true}
                 ]
             }
         ]

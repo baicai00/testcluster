@@ -147,6 +147,7 @@ function MTools:start(...)
                     node_tag = sub_item.node_tag,
                     ip = sub_item.ip,
                     port = sub_item.port,
+                    debug_port = sub_item.debug_port,
                     online = sub_item.online
                 })
             end
@@ -164,6 +165,11 @@ function MTools:start(...)
         export["service_name"] = service_name
         export["service_id"] = item.service_id
         export["lua_service"] = service_name
+        export["debug_port"] = item.debug_port
+
+        -- if service_name == "shop" then
+        --     export["lua_service"] = "service"
+        -- end
 
         self:export_to_template(self.template, self.config_name)
         self:start_skynet(self.config_name, service_name, export["service_id"], "log")

@@ -44,32 +44,41 @@ end)
 
 
 skynet.start(function()
-    beelog_info("start node2==========")
 
     local pb = {
-        "pb.Test",
+        "pb.TestMsg",
     }
 
     dispatcher = dispatch.new(gtables)
     dispatcher:regs(protobuf, pb)
 
-    cluster.register("node2", skynet.self())
-    cluster.open("node2_3")
+    cluster.register("lpersistence", skynet.self())
+    cluster.open("lpersistence_3")
 
-    skynet.newservice("debug_console", 8002)
+    local debug_port = assert(skynet.getenv("debug_port"))
+    skynet.newservice("debug_console", debug_port)
 
-    skynet.dispatch("lua", function (session , source, cmd, ...)
-        local f = assert(CMD[cmd])
-        local ret = f(...)
-        if session ~= 0 then
-            skynet.ret(skynet.pack(ret))
-        end
-    end)
+    local mysqlpool = skynet.newservice("mysqlpool")
+    skynet.call(mysqlpool, "lua", "lua", "start", "mysqlpool")
+    cluster.register("mysqlpool", mysqlpool)
+    -- gaddrs["mysqlpool"] = mysqlpool
 
-    skynet.dispatch("text", function(session, source, netmsg)
-        if netmsg ~= nil then
-            local uid, name, msg = protopack.unpack_raw(netmsg, protobuf)
-            dispatcher:dispatch(uid, name, msg, session, source, protobuf)
+    skynet.dispatch("lua", function (session , source, sub_type, ...)
+        if sub_type == "lua" then
+            local args = table.pack(...)
+            local cmd = args[1]
+            local f = assert(CMD[cmd])
+            local ret = f(table.unpack(args, 2))
+            if session ~= 0 then
+                skynet.ret(skynet.pack(ret))
+            end
+        elseif sub_type == "text" then
+            local args = table.pack(...)
+            local netmsg = args[1]
+            if netmsg ~= nil then
+                local uid, name, msg = protopack.unpack_raw(netmsg, protobuf)
+                dispatcher:dispatch(uid, name, msg, session, source, protobuf)
+            end
         end
     end)
 end)

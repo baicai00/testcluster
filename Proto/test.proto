@@ -1,0 +1,11 @@
+syntax = "proto2";
+package pb;
+
+message PingREQ
+{
+    optional string req_ctx = 1;
+}
+message PingRSP
+{
+    optional string rsp_ctx = 2;
+}

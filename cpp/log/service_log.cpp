@@ -28,7 +28,18 @@ void logger_release(struct logger * inst)
 
 static int _logger(struct skynet_context * context, void *ud, int type, int session, uint32_t source, const void * msg, size_t sz)
 {
-	char temp[100];
+	// char temp[100];
+	// if (source != 0)
+	// {
+	// 	sprintf(temp, "[%08x] ", source);
+	// 	LOG(INFO) << temp << (const char*)msg;
+	// }
+	// else
+	// {
+	// 	LOG(INFO) << (const char*)msg;
+	// }
+
+    char temp[100];
     char test[5] = {0};
     int testlen = sizeof(test);
     char* data = (char*)msg;
@@ -86,17 +97,6 @@ static int _logger(struct skynet_context * context, void *ud, int type, int sess
             LOG(INFO) << data;
         }
     }
-    /*
-	if (source != 0)
-	{
-		sprintf(temp, "[%08x] ", source);
-		LOG(INFO) << temp << (const char*)msg;
-	}
-	else
-	{
-		LOG(INFO) << (const char*)msg;
-	}
-    */
 
 	return 0;
 }

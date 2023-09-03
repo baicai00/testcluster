@@ -67,7 +67,7 @@ function M:dispatch(uid, name, msg, session, source, protobuf)
 	local handler = self.map[name]
 
 	if not handler then
-		-- skynet.error("can't find handler:", name)
+		skynet.error("can't find handler:", name)
 		return
 	end
 

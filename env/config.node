@@ -3,6 +3,7 @@ service_name = "$service_name"
 is_daemon = $daemon
 lua_service = "$lua_service"
 service_id = $service_id
+debug_port = $debug_port
 
 proj_root = "/root/testcluster/"
 lua_root = "/root/testcluster/lua/"
@@ -22,14 +23,17 @@ cpath = skynet_root .. "cservice/?.so;" .. skynet_root .. "luaclib/?.so;"..proj_
 
 lua_path = skynet_root .. "lualib/?.lua;" ..skynet_root.."lualib/?/?.lua;"
 .. lua_root .. "?.lua;" .. lua_root .. "global/?.lua;" .. lua_root .. "lib/?.lua;"
-.. lua_root .. "node1/?.lua;"
-.. lua_root .. "node2/?.lua;"
+.. lua_root .. "common/?.lua;"
+.. lua_root .. "lobby/?.lua;"
+.. lua_root .. "lpersistence/?.lua;"
 .. lua_root .. "BeeCluster/?.lua;"
+.. lua_root .. "activity_master/?.lua;"
 
 luaservice = skynet_root .. "service/?.lua;" .. lua_root .. "?.lua;"
-.. lua_root .. "node1/?.lua;"
-.. lua_root .. "node2/?.lua;"
+.. lua_root .. "lobby/?.lua;"
+.. lua_root .. "lpersistence/?.lua;"
 .. lua_root .. "BeeCluster/?.lua;"
+.. lua_root .. "activity_master/?.lua;"
 
 cluster = proj_root .. "env/config.cluster"
 
@@ -43,3 +47,9 @@ if is_daemon then
 else
     log_name = "stdout"
 end
+
+mysql_maxconn = 10
+mysql_host = "10.100.2.58:3307"
+mysql_user = "root"
+mysql_password = "163.com"
+mysql_database = "pppoker"

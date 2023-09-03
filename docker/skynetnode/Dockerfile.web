@@ -1,14 +1,12 @@
 FROM ubuntu:22.04
 
 WORKDIR /work
-COPY ./boost_1_55_0.tar.gz /work/
-COPY ./glog.tar.gz /work/
-COPY ./protobuf34.tar.gz /work/
+# COPY ./boost_1_55_0.tar.gz /work/
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -y && \
     apt-get upgrade -y && \
-    apt-get install -y build-essential vim autoconf automake libtool git wget && \
+    apt-get install -y build-essential vim autoconf automake libtool git wget curl unzip && \
     # install skynet
     # echo "start install skynet" && \
     # git clone -b v1.6.0 --depth=1 https://github.com/cloudwu/skynet.git && cd skynet && make linux && \
@@ -17,14 +15,21 @@ RUN apt-get update -y && \
     # cp -Rf /work/skynet/luaclib luaclib && \
     # cp -Rf /work/skynet/cservice cservice && \
     # cp -f /work/skynet/skynet skynet &&\
+    # install glog
+    cd /work && \
+    git clone https://github.com/google/glog.git && \
+    cd glog && git checkout v0.4.0 && \
+    sh autogen.sh && sh configure --prefix=/usr/ && make && make install && \
+    # install protobuf
+    cd /work && \
+    git clone https://github.com/protocolbuffers/protobuf.git && \
+    cd protobuf && git checkout v3.4.0 && git submodule update --init --recursive && \
+    sh autogen.sh && ./configure --prefix=/usr/ && make && make install && \
     # install boost
     cd /work && \
-    tar -zxf boost_1_55_0.tar.gz && cd boost_1_55_0 && \
+    wget https://boostorg.jfrog.io/artifactory/main/release/1.83.0/source/boost_1_83_0.tar.gz && \
+    tar -zxf boost_1_83_0.tar.gz && cd boost_1_83_0 && \
     sh bootstrap.sh --with-libraries=thread --prefix=/usr/ && ./b2 install && \
-    # install glog
-    cd /work && tar -zxf glog.tar.gz -C /usr/local && \
-    # install protobuf
-    cd /work && tar -zxf protobuf34.tar.gz -C /usr/local && \
     # 清理
     rm -rf /work/* && \
     apt-get clean && apt-get autoclean && apt-get autoremove && \

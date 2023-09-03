@@ -32,3 +32,4 @@
 publish/log/*
 publish/pid/*.pid
 publish/service
+data/*

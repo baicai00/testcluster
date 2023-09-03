@@ -6,8 +6,3 @@ message TestMsg
     optional int32 id = 1;
     optional string name = 2;
 }
-
-message TestPingActivityREQ
-{
-    optional string ping_msg = 1;
-}
