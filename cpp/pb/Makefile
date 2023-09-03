@@ -4,9 +4,8 @@ BIN_PATH = ../../publish/service/
 CPP_FILES +=$(wildcard *.cc)
 H_FILES += $(wildcard *.h)
 
-INC := -I$(PB34_DIR)/include
+INC :=
 LIBS := --share \
-		-L${LIBPB_DIR} \
 		-lprotobuf #-Wl,-soname,libpb.so.1
 CXXFLAGS := -fPIC -Wall -O0 -fdiagnostics-color=auto -std=c++11
 

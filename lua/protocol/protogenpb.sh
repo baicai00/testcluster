@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ -z "$1" ] ; then
 	echo usage:
@@ -13,7 +13,7 @@ protofiles=`ls $INNER_IMPORT/*.proto $PUB_IMPORT/*.proto`
 
 rm -rf *.pb  ./pb/*.pb
 
-bin=/usr/local/protobuf34/bin/protoc
+bin=protoc
 
 for f in ${protofiles[*]}
 do

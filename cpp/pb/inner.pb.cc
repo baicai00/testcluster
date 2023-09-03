@@ -23,13 +23,18 @@ public:
  ::google::protobuf::internal::ExplicitlyConstructed<TestMsg>
      _instance;
 } _TestMsg_default_instance_;
+class iTestPingShopREQDefaultTypeInternal {
+public:
+ ::google::protobuf::internal::ExplicitlyConstructed<iTestPingShopREQ>
+     _instance;
+} _iTestPingShopREQ_default_instance_;
 
 namespace protobuf_inner_2eproto {
 
 
 namespace {
 
-::google::protobuf::Metadata file_level_metadata[1];
+::google::protobuf::Metadata file_level_metadata[2];
 
 }  // namespace
 
@@ -45,6 +50,7 @@ PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::AuxillaryParseTableField
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTable const
     TableStruct::schema[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { NULL, NULL, 0, -1, -1, -1, -1, NULL, false },
+  { NULL, NULL, 0, -1, -1, -1, -1, NULL, false },
 };
 
 const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
@@ -57,13 +63,22 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_ATTRIBUTE_SECTION
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TestMsg, name_),
   1,
   0,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(iTestPingShopREQ, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(iTestPingShopREQ, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(iTestPingShopREQ, ping_msg_),
+  0,
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 7, sizeof(TestMsg)},
+  { 9, 15, sizeof(iTestPingShopREQ)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&_TestMsg_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&_iTestPingShopREQ_default_instance_),
 };
 
 namespace {
@@ -84,7 +99,7 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 1);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 2);
 }
 
 }  // namespace
@@ -94,7 +109,9 @@ void TableStruct::InitDefaultsImpl() {
   ::google::protobuf::internal::InitProtobufDefaults();
   _TestMsg_default_instance_._instance.DefaultConstruct();
   ::google::protobuf::internal::OnShutdownDestroyMessage(
-      &_TestMsg_default_instance_);}
+      &_TestMsg_default_instance_);_iTestPingShopREQ_default_instance_._instance.DefaultConstruct();
+  ::google::protobuf::internal::OnShutdownDestroyMessage(
+      &_iTestPingShopREQ_default_instance_);}
 
 void InitDefaults() {
   static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
@@ -105,10 +122,11 @@ void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\013inner.proto\022\002pb\"#\n\007TestMsg\022\n\n\002id\030\001 \001(\005"
-      "\022\014\n\004name\030\002 \001(\t"
+      "\022\014\n\004name\030\002 \001(\t\"$\n\020iTestPingShopREQ\022\020\n\010pi"
+      "ng_msg\030\001 \001(\t"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 54);
+      descriptor, 92);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "inner.proto", &protobuf_RegisterTypes);
 }
@@ -522,6 +540,335 @@ void TestMsg::set_allocated_name(::std::string* name) {
   }
   name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), name);
   // @@protoc_insertion_point(field_set_allocated:pb.TestMsg.name)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
+
+// ===================================================================
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int iTestPingShopREQ::kPingMsgFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+iTestPingShopREQ::iTestPingShopREQ()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    protobuf_inner_2eproto::InitDefaults();
+  }
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:pb.iTestPingShopREQ)
+}
+iTestPingShopREQ::iTestPingShopREQ(const iTestPingShopREQ& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ping_msg_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_ping_msg()) {
+    ping_msg_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.ping_msg_);
+  }
+  // @@protoc_insertion_point(copy_constructor:pb.iTestPingShopREQ)
+}
+
+void iTestPingShopREQ::SharedCtor() {
+  _cached_size_ = 0;
+  ping_msg_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+iTestPingShopREQ::~iTestPingShopREQ() {
+  // @@protoc_insertion_point(destructor:pb.iTestPingShopREQ)
+  SharedDtor();
+}
+
+void iTestPingShopREQ::SharedDtor() {
+  ping_msg_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void iTestPingShopREQ::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* iTestPingShopREQ::descriptor() {
+  protobuf_inner_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_inner_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const iTestPingShopREQ& iTestPingShopREQ::default_instance() {
+  protobuf_inner_2eproto::InitDefaults();
+  return *internal_default_instance();
+}
+
+iTestPingShopREQ* iTestPingShopREQ::New(::google::protobuf::Arena* arena) const {
+  iTestPingShopREQ* n = new iTestPingShopREQ;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void iTestPingShopREQ::Clear() {
+// @@protoc_insertion_point(message_clear_start:pb.iTestPingShopREQ)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (has_ping_msg()) {
+    GOOGLE_DCHECK(!ping_msg_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+    (*ping_msg_.UnsafeRawStringPointer())->clear();
+  }
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
+}
+
+bool iTestPingShopREQ::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:pb.iTestPingShopREQ)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // optional string ping_msg = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_ping_msg()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->ping_msg().data(), static_cast<int>(this->ping_msg().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "pb.iTestPingShopREQ.ping_msg");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:pb.iTestPingShopREQ)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:pb.iTestPingShopREQ)
+  return false;
+#undef DO_
+}
+
+void iTestPingShopREQ::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:pb.iTestPingShopREQ)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // optional string ping_msg = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->ping_msg().data(), static_cast<int>(this->ping_msg().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "pb.iTestPingShopREQ.ping_msg");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->ping_msg(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        _internal_metadata_.unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:pb.iTestPingShopREQ)
+}
+
+::google::protobuf::uint8* iTestPingShopREQ::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:pb.iTestPingShopREQ)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // optional string ping_msg = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->ping_msg().data(), static_cast<int>(this->ping_msg().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "pb.iTestPingShopREQ.ping_msg");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->ping_msg(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:pb.iTestPingShopREQ)
+  return target;
+}
+
+size_t iTestPingShopREQ::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:pb.iTestPingShopREQ)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        _internal_metadata_.unknown_fields());
+  }
+  // optional string ping_msg = 1;
+  if (has_ping_msg()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->ping_msg());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void iTestPingShopREQ::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:pb.iTestPingShopREQ)
+  GOOGLE_DCHECK_NE(&from, this);
+  const iTestPingShopREQ* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const iTestPingShopREQ>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:pb.iTestPingShopREQ)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:pb.iTestPingShopREQ)
+    MergeFrom(*source);
+  }
+}
+
+void iTestPingShopREQ::MergeFrom(const iTestPingShopREQ& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:pb.iTestPingShopREQ)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.has_ping_msg()) {
+    set_has_ping_msg();
+    ping_msg_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.ping_msg_);
+  }
+}
+
+void iTestPingShopREQ::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:pb.iTestPingShopREQ)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void iTestPingShopREQ::CopyFrom(const iTestPingShopREQ& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:pb.iTestPingShopREQ)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool iTestPingShopREQ::IsInitialized() const {
+  return true;
+}
+
+void iTestPingShopREQ::Swap(iTestPingShopREQ* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void iTestPingShopREQ::InternalSwap(iTestPingShopREQ* other) {
+  using std::swap;
+  ping_msg_.Swap(&other->ping_msg_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata iTestPingShopREQ::GetMetadata() const {
+  protobuf_inner_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_inner_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// iTestPingShopREQ
+
+// optional string ping_msg = 1;
+bool iTestPingShopREQ::has_ping_msg() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void iTestPingShopREQ::set_has_ping_msg() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void iTestPingShopREQ::clear_has_ping_msg() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void iTestPingShopREQ::clear_ping_msg() {
+  ping_msg_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_ping_msg();
+}
+const ::std::string& iTestPingShopREQ::ping_msg() const {
+  // @@protoc_insertion_point(field_get:pb.iTestPingShopREQ.ping_msg)
+  return ping_msg_.GetNoArena();
+}
+void iTestPingShopREQ::set_ping_msg(const ::std::string& value) {
+  set_has_ping_msg();
+  ping_msg_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:pb.iTestPingShopREQ.ping_msg)
+}
+#if LANG_CXX11
+void iTestPingShopREQ::set_ping_msg(::std::string&& value) {
+  set_has_ping_msg();
+  ping_msg_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:pb.iTestPingShopREQ.ping_msg)
+}
+#endif
+void iTestPingShopREQ::set_ping_msg(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  set_has_ping_msg();
+  ping_msg_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:pb.iTestPingShopREQ.ping_msg)
+}
+void iTestPingShopREQ::set_ping_msg(const char* value, size_t size) {
+  set_has_ping_msg();
+  ping_msg_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:pb.iTestPingShopREQ.ping_msg)
+}
+::std::string* iTestPingShopREQ::mutable_ping_msg() {
+  set_has_ping_msg();
+  // @@protoc_insertion_point(field_mutable:pb.iTestPingShopREQ.ping_msg)
+  return ping_msg_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+::std::string* iTestPingShopREQ::release_ping_msg() {
+  // @@protoc_insertion_point(field_release:pb.iTestPingShopREQ.ping_msg)
+  clear_has_ping_msg();
+  return ping_msg_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+void iTestPingShopREQ::set_allocated_ping_msg(::std::string* ping_msg) {
+  if (ping_msg != NULL) {
+    set_has_ping_msg();
+  } else {
+    clear_has_ping_msg();
+  }
+  ping_msg_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ping_msg);
+  // @@protoc_insertion_point(field_set_allocated:pb.iTestPingShopREQ.ping_msg)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

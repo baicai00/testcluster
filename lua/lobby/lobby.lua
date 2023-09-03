@@ -112,9 +112,20 @@ function gtables.test_ping_mysqlpool()
         return
     end
 
-    local sql = "select * from pppoker.user where uid = 10076447"
+    local sql = "select * from user where uid = 10076447"
     local ret = cluster.call("lpersistence_3", handle, "lua", "execute", sql)
     beelog_info(tostring(ret))
+end
+
+function gtables.test_ping_shop()
+    local handle = gtables.get_service_handle("shop_master_4", "shop_master")
+    if not handle then
+        return
+    end
+
+    local test_msg = {ping_msg = "hello shop"}
+    local pack_msg = protopack.pack_raw(protopack.SUBTYPE_PROTOBUF, 0, "pb.iTestPingShopREQ", test_msg, protobuf)
+    cluster.send("shop_master_4", handle, "text", pack_msg)
 end
 
 skynet.start(function()
@@ -136,7 +147,9 @@ skynet.start(function()
         -- gtables.test_ping_mysqlpool()
 
         -- gtables.test_ping_activity()
-        gtables.test_ping_activity_with_proxy()
+        -- gtables.test_ping_activity_with_proxy()
+
+        gtables.test_ping_shop()
 
         skynet.sleep(100)
     end

@@ -4,7 +4,7 @@
 --
 package.path = package.path .. ";./Mant/?.lua;"
 
-local config_path = "../env/"
+local config_path = "/work/env/"
 local config_name = "config.node"
 local dev_hostname = "local-dev"
 

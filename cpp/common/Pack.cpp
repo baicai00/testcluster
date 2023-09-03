@@ -2,7 +2,6 @@
 #include <arpa/inet.h>
 #include <stdlib.h>
 #include <string.h>
-#include <zlib.h>
 #include "Pack.h"
 #include "../log/Log.h"
 extern "C"
@@ -29,76 +28,6 @@ int16_t asInt16(const char* buf)
 	int16_t be16 = 0;
 	memcpy(&be16, buf, sizeof(be16));
 	return ntohs(be16);
-}
-
-static bool zlib_compress(const std::string& pb_data, std::string& output)
-{
-    constexpr int CHUNK = 16384;
-    z_stream strm;
-    unsigned char in[CHUNK];
-    unsigned char out[CHUNK];
-
-    /* allocate deflate state */
-    strm.zalloc = Z_NULL;
-    strm.zfree = Z_NULL;
-    strm.opaque = Z_NULL;
-    int ret = deflateInit(&strm, Z_BEST_COMPRESSION);
-    if (ret != Z_OK)
-    {
-        LOG(ERROR) << "deflateInit error. ret:" << ret;
-        return false;
-    }
-
-    std::stringstream ss;
-    size_t pos = 0;
-    int flush;
-    size_t pb_len = pb_data.size();
-    /* compress until end of file */
-    do {
-        std::size_t length = pb_data.copy((char*)in, CHUNK, pos);
-        pos += length;
-        flush = (pos >= pb_len ? Z_FINISH : Z_NO_FLUSH);
-        strm.avail_in = length;
-        strm.next_in = in;
-
-        /* run deflate() on input until output buffer not full, finish
-           compression if all of source has been read in */
-        do {
-            strm.avail_out = CHUNK;
-            strm.next_out = out;
-            ret = deflate(&strm, flush);    /* no bad return value */
-            // assert(ret != Z_STREAM_ERROR);  /* state not clobbered */
-            if (ret == Z_STREAM_ERROR)
-            {
-                LOG(ERROR) << "compress error. ret:" << ret;
-                deflateEnd(&strm);
-                return false;
-            }
-            unsigned have = CHUNK - strm.avail_out;
-            ss << string((const char*)out, have);
-        } while (strm.avail_out == 0);
-        // assert(strm.avail_in == 0);     /* all input will be used */
-        if (strm.avail_in != 0)
-        {
-            LOG(ERROR) << "compress error. avail_in:" << strm.avail_in;
-            deflateEnd(&strm);
-            return false;
-        }
-
-        /* done when last data in file processed */
-    } while (flush != Z_FINISH);
-    // assert(ret == Z_STREAM_END);        /* stream will be complete */
-    if (ret != Z_STREAM_END)
-    {
-        LOG(ERROR) << "compress error. ret:" << ret;
-        deflateEnd(&strm);
-        return false;
-    }
-
-    output = ss.str();
-    /* clean up and return */
-    (void)deflateEnd(&strm);
-    return true;
 }
 
 
@@ -404,89 +333,6 @@ void OutPack::new_innerpack_type(char* &result, uint32_t& size, uint64_t uid, ui
 	
 }
 
-bool OutPack::zip_reset(const Message& msg)
-{
-    if (!msg.SerializeToString(&m_pb_data)) // 把protobuf消息msg序列化为string并保存到m_pb_data中
-    {
-        log_error("serialize error\n");
-        return false;
-    }
-
-    // uint64_t now = CTimeUntil::now_tick_us();
-    std::string output;
-    if (!zlib_compress(m_pb_data, output))
-    {
-        log_error("compress error\n");
-        return false;
-    }
-
-    // uint64_t t = CTimeUntil::now_tick_us() - now;
-    // LOG(INFO) << "zip_reset pb_name: " << msg.GetTypeName() << " " << m_pb_data.size() << " " << output.size() << " " << t;
-
-    m_pb_data = output;
-    m_type_name = msg.GetTypeName(); // 获取协议名称
-    return true;
-}
-
-bool OutPack::zip_reset(const std::string& msg, int32_t& roomid)
-{
-    // datalen + namelen + name + roomid + pbdata
-    const char* data = msg.data();
-    uint32_t total_len = msg.size();
-
-    uint32_t msglen = 0;
-    memcpy(&msglen, data, kMessageLen);
-    msglen = ntohl(msglen);
-
-    uint16_t namelen = 0;
-    memcpy(&namelen, data + kMessageLen, kTypeNameLen);
-    namelen = ntohs(namelen);
-
-    // 协议名
-    if (namelen >= 1024)
-    {
-        char* namebuf = (char*)skynet_malloc(namelen);
-        memcpy(namebuf, data + kMessageLen + kTypeNameLen, namelen);
-        m_type_name = string(namebuf, namelen);
-        skynet_free(namebuf);
-    }
-    else
-    {
-        char namebuf[1024] = {0};
-        memcpy(namebuf, data + kMessageLen + kTypeNameLen, namelen);
-        m_type_name = string(namebuf, namelen);
-    }
-
-    memcpy(&roomid, data + kMessageLen + kTypeNameLen + namelen, kRoomidLen);
-    roomid = ntohl(roomid);
-
-    const char* rowmsg = data + kMessageLen + kTypeNameLen + namelen + kRoomidLen;
-    int row_msg_len = msglen - (kTypeNameLen + namelen + kRoomidLen);
-
-    // TOTEST
-    // LOG(INFO) << "zip_reset pb_name:" << m_type_name << " msglen:" << msglen
-    //     << " namelen:" << namelen << " roomid:" << roomid << " row_msg_len:" << row_msg_len << " total_size:" << msg.size();
-    if (total_len != kMessageLen + msglen)
-    {
-        LOG(ERROR) << "zip_reset parse error. total_len: " << total_len << " cal_len:" << kMessageLen + msglen;
-    }
-    //---
-
-    // uint64_t now = CTimeUntil::now_tick_us(); // for test
-    std::string input = string(rowmsg, row_msg_len);
-    if (!zlib_compress(input, m_pb_data))
-    {
-        log_error("compress error m_type_name:%s\n", m_type_name.c_str());
-        return false;
-    }
-
-    // 测试代码
-    // uint64_t t = CTimeUntil::now_tick_us() - now;
-    // LOG(INFO) << "zip_reset pb_name: " << m_type_name << " " << row_msg_len << " " << m_pb_data.size() << " " << t;
-
-    return true;
-}
-
 void OutPack::test()
 {
 	log_debug("test outputpack:  typelen:%d datalen:%d typename:%s", (int)m_type_name.size(), (int)m_pb_data.size(), m_type_name.c_str());
@@ -550,25 +396,6 @@ void serialize_msg(const Message& msg, char* &result, uint32_t& size, uint32_t s
 	OutPack opack;
 	opack.reset(msg);
 	opack.new_outpack(result, size, sub_type, roomid);
-}
-
-void serialize_msg_with_compress(const Message& msg, char* &result, uint32_t& size, const int32_t& roomid)
-{
-    OutPack opack;
-    opack.zip_reset(msg);
-	int32_t compress_roomid = (1<<31) | roomid;
-	// LOG(INFO) << "YAO_TEST serialize_msg_with_compress roomid:" << roomid << ",compress:" << compress_roomid;
-    opack.new_outpack(result, size, 0, compress_roomid);
-}
-
-void compress_row_msg(const std::string& msg, char* &result, uint32_t& size)
-{
-    OutPack opack;
-    int32_t roomid;
-    opack.zip_reset(msg, roomid);
-	int32_t compress_roomid = (1<<31) | roomid;
-	// LOG(INFO) << "YAO_TEST compress_row_msg roomid :" << roomid << ",compress:" << compress_roomid;
-    opack.new_outpack(result, size, 0, compress_roomid);
 }
 
 //todo: 20210630

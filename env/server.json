@@ -1,30 +1,30 @@
 [
     {
-        "hostname": "localhost.localdomain",
+        "hostname": "b9318b85d088",
         "services" : [
             {
                 "name": "lobby",
                 "node_list" : [
-                    {"service_id": 1, "ip": "127.0.0.1", "port": 3528, "debug_port":13528, "online": true},
-                    {"service_id": 2, "ip": "127.0.0.1", "port": 3529, "debug_port":13529, "is_bak": true, "online": false}
+                    {"service_id": 1, "ip": "0.0.0.0", "port": 3528, "debug_port":13528, "online": true},
+                    {"service_id": 2, "ip": "0.0.0.0", "port": 3529, "debug_port":13529, "is_bak": true, "online": false}
                 ]
             },
             {
                 "name": "lpersistence",
                 "node_list": [
-                    {"service_id": 3, "ip": "127.0.0.1", "port": 3535, "debug_port":13535, "online": true}
+                    {"service_id": 3, "ip": "0.0.0.0", "port": 3535, "debug_port":13535, "online": true}
                 ]
             },
             {
                 "name": "shop_master",
                 "node_list":[
-                    {"service_id": 4, "ip": "127.0.0.1", "port": 3537, "debug_port":13537, "online": true}
+                    {"service_id": 4, "ip": "0.0.0.0", "port": 3537, "debug_port":13537, "online": true}
                 ]
             },
             {
                 "name": "activity_master",
                 "node_list":[
-                    {"service_id": 5, "ip":"127.0.0.1", "port":3539, "debug_port":13539, "online": true}
+                    {"service_id": 5, "ip":"0.0.0.0", "port":3539, "debug_port":13539, "online": true}
                 ]
             }
         ]

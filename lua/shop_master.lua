@@ -38,14 +38,14 @@ end)
 skynet.start(function ()
     beelog_info("start shop ===============")
 
-    cluster.register("shop", skynet.self())
+    cluster.register("shop_master", skynet.self())
     cluster.open("shop_master_4")
 
     local debug_port = assert(skynet.getenv("debug_port"))
     skynet.newservice("debug_console", debug_port)
 
     local shop = assert(skynet.launch("shop"))
-    cluster.register("shop", shop)
+    -- cluster.register("shop", shop)
 
     skynet.dispatch("lua", function (session , source, sub_type, ...)
         if sub_type == "lua" then
@@ -60,7 +60,7 @@ skynet.start(function ()
             local args = table.pack(...)
             local netmsg = args[1]
             if netmsg ~= nil then
-                -- local uid, name, msg = protopack.unpack_raw(netmsg, protobuf)
+                local uid, name, msg = protopack.unpack_raw(netmsg, protobuf)
                 -- dispatcher:dispatch(uid, name, msg, session, source, protobuf)
             end
         end

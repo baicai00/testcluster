@@ -57,14 +57,7 @@ class ServiceContext final
             char* data;
             uint32_t size;
 
-            if (compress)
-            {
-                serialize_msg_with_compress(msg, data, size, roomid);
-            }
-            else
-            {
-                serialize_msg(msg, data, size, 0, roomid);
-            }
+            serialize_msg(msg, data, size, 0, roomid);
 
             // 发送给已经登录的用户的agent_fd, 使用socket的接口
             if (2 == socket_type)
@@ -81,16 +74,8 @@ class ServiceContext final
             // datalen + namelen + name + roomid + pbdata
             //void* data = skynet_malloc(size);
             //memcpy(data, msg, size);
-            char* data;
-            if (compress)
-            {
-                compress_row_msg(string((const char*)msg, size), data, size);
-            }
-            else
-            {
-                data = (char*)skynet_malloc(size);
-                memcpy(data, msg, size);
-            }
+            char* data = (char*)skynet_malloc(size);
+            memcpy(data, msg, size);
             if (2 == socket_type)
             {
                 return skynet_send_noleak(ctx, 0, gate, PTYPE_CLIENT | PTYPE_TAG_DONTCOPY, id, data, size);

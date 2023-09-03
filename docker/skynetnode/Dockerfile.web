@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -y && \
     apt-get upgrade -y && \
-    apt-get install -y build-essential vim autoconf automake libtool git wget curl unzip && \
+    apt-get install -y build-essential vim autoconf automake libtool git wget curl unzip libreadline-dev net-tools && \
     # install skynet
     # echo "start install skynet" && \
     # git clone -b v1.6.0 --depth=1 https://github.com/cloudwu/skynet.git && cd skynet && make linux && \
@@ -30,6 +30,10 @@ RUN apt-get update -y && \
     wget https://boostorg.jfrog.io/artifactory/main/release/1.83.0/source/boost_1_83_0.tar.gz && \
     tar -zxf boost_1_83_0.tar.gz && cd boost_1_83_0 && \
     sh bootstrap.sh --with-libraries=thread --prefix=/usr/ && ./b2 install && \
+    # install lua
+    cd /work && \
+    wget https://www.lua.org/ftp/lua-5.3.6.tar.gz && \
+    tar -zxf lua-5.3.6.tar.gz && cd lua-5.3.6 && make linux && make install && \
     # 清理
     rm -rf /work/* && \
     apt-get clean && apt-get autoclean && apt-get autoremove && \

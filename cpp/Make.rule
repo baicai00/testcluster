@@ -1,4 +1,4 @@
-SERVER_ROOT ?= /root/testcluster
+SERVER_ROOT ?= /work
 
 OUTPUT_PATH = ${SERVER_ROOT}/publish/service
 SRC_PATH = ${SERVER_ROOT}/cpp
@@ -7,16 +7,11 @@ SKYNET_ROOT = ${SERVER_ROOT}/3rd/skynet/
 PB_DIR = ${SRC_PATH}/pb
 COMM_DIR = ${SRC_PATH}/common
 
-PB34_DIR = /usr/local/protobuf34
-LIBPB_DIR = ${PB34_DIR}/lib
-INCPB_DIR = ${PB34_DIR}/include
-
 SYSTEM_DIR = /usr/include
 
 CFLAGS += -fPIC -Wall -g -O0
 CXXFLAGS += -fPIC -Wall -g -O0 -fdiagnostics-color=auto -std=c++11
 LIBS += -L$(OUTPUT_PATH) \
-		-L${LIBPB_DIR} \
 		-L${PB_DIR} \
 		-L${COMM_DIR} \
 		-lglog \
@@ -24,7 +19,6 @@ LIBS += -L$(OUTPUT_PATH) \
 		-lpb_s \
 
 INC += -I${SRC_PATH} \
-		-I${INCPB_DIR} \
 		-I../common/ \
 		-I${SYSTEM_DIR} \
 

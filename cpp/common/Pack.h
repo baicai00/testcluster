@@ -139,8 +139,6 @@ public:
 		reset(msg);
 	}
 	bool reset(const Message& msg);
-    bool zip_reset(const Message& msg);
-    bool zip_reset(const std::string& msg, int32_t& roomid);
 	void new_outpack(char* &result, uint32_t& size, uint32_t sub_type, const int32_t& roomid); // char* &result:指向char*的引用
 	void new_innerpack_type(char* &result, uint32_t& size, uint64_t uid, uint32_t type, const int32_t& roomid); //用于rpc
 	void new_innerpack(char* &result, uint32_t& size, uint64_t uid, const int32_t& roomid); //用于rpc
@@ -158,8 +156,6 @@ public:
 
 // 外部的协议，需要和客户端通信
 void serialize_msg(const Message& msg, char* &result, uint32_t& size, uint32_t type, const int32_t& roomid);
-void serialize_msg_with_compress(const Message& msg, char* &result, uint32_t& size, const int32_t& roomid);
-void compress_row_msg(const std::string& msg, char* &result, uint32_t& size);
 // 内部的协议，不和客户端通信
 void serialize_imsg_type(const Message& msg, char* &result, uint32_t& size, uint64_t uid, uint32_t type, const int32_t& romid);  //不加包头
 

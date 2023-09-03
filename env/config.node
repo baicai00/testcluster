@@ -5,9 +5,9 @@ lua_service = "$lua_service"
 service_id = $service_id
 debug_port = $debug_port
 
-proj_root = "/root/testcluster/"
-lua_root = "/root/testcluster/lua/"
-skynet_root = "/root/testcluster/publish/skynet/"
+proj_root = "/work/"
+lua_root = "/work/lua/"
+skynet_root = "/work/publish/skynet/"
 
 --基本配置
 thread = 8
@@ -49,7 +49,7 @@ else
 end
 
 mysql_maxconn = 10
-mysql_host = "10.100.2.58:3307"
+mysql_host = "testcluster_mysql:3306"
 mysql_user = "root"
 mysql_password = "163.com"
-mysql_database = "pppoker"
+mysql_database = "test_db"

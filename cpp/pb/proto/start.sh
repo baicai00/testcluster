@@ -2,7 +2,7 @@
 
 proto_dir="$1"
 
-bin=/usr/local/protobuf34/bin/protoc
+bin=protoc
 
 #bin=echo
 

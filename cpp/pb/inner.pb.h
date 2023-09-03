@@ -34,6 +34,9 @@ namespace pb {
 class TestMsg;
 class TestMsgDefaultTypeInternal;
 extern TestMsgDefaultTypeInternal _TestMsg_default_instance_;
+class iTestPingShopREQ;
+class iTestPingShopREQDefaultTypeInternal;
+extern iTestPingShopREQDefaultTypeInternal _iTestPingShopREQ_default_instance_;
 }  // namespace pb
 
 namespace pb {
@@ -179,6 +182,122 @@ class TestMsg : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::int32 id_;
   friend struct protobuf_inner_2eproto::TableStruct;
 };
+// -------------------------------------------------------------------
+
+class iTestPingShopREQ : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:pb.iTestPingShopREQ) */ {
+ public:
+  iTestPingShopREQ();
+  virtual ~iTestPingShopREQ();
+
+  iTestPingShopREQ(const iTestPingShopREQ& from);
+
+  inline iTestPingShopREQ& operator=(const iTestPingShopREQ& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  iTestPingShopREQ(iTestPingShopREQ&& from) noexcept
+    : iTestPingShopREQ() {
+    *this = ::std::move(from);
+  }
+
+  inline iTestPingShopREQ& operator=(iTestPingShopREQ&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const iTestPingShopREQ& default_instance();
+
+  static inline const iTestPingShopREQ* internal_default_instance() {
+    return reinterpret_cast<const iTestPingShopREQ*>(
+               &_iTestPingShopREQ_default_instance_);
+  }
+  static PROTOBUF_CONSTEXPR int const kIndexInFileMessages =
+    1;
+
+  void Swap(iTestPingShopREQ* other);
+  friend void swap(iTestPingShopREQ& a, iTestPingShopREQ& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline iTestPingShopREQ* New() const PROTOBUF_FINAL { return New(NULL); }
+
+  iTestPingShopREQ* New(::google::protobuf::Arena* arena) const PROTOBUF_FINAL;
+  void CopyFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void MergeFrom(const ::google::protobuf::Message& from) PROTOBUF_FINAL;
+  void CopyFrom(const iTestPingShopREQ& from);
+  void MergeFrom(const iTestPingShopREQ& from);
+  void Clear() PROTOBUF_FINAL;
+  bool IsInitialized() const PROTOBUF_FINAL;
+
+  size_t ByteSizeLong() const PROTOBUF_FINAL;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) PROTOBUF_FINAL;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const PROTOBUF_FINAL;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const PROTOBUF_FINAL;
+  int GetCachedSize() const PROTOBUF_FINAL { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const PROTOBUF_FINAL;
+  void InternalSwap(iTestPingShopREQ* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const PROTOBUF_FINAL;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional string ping_msg = 1;
+  bool has_ping_msg() const;
+  void clear_ping_msg();
+  static const int kPingMsgFieldNumber = 1;
+  const ::std::string& ping_msg() const;
+  void set_ping_msg(const ::std::string& value);
+  #if LANG_CXX11
+  void set_ping_msg(::std::string&& value);
+  #endif
+  void set_ping_msg(const char* value);
+  void set_ping_msg(const char* value, size_t size);
+  ::std::string* mutable_ping_msg();
+  ::std::string* release_ping_msg();
+  void set_allocated_ping_msg(::std::string* ping_msg);
+
+  // @@protoc_insertion_point(class_scope:pb.iTestPingShopREQ)
+ private:
+  void set_has_ping_msg();
+  void clear_has_ping_msg();
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable int _cached_size_;
+  ::google::protobuf::internal::ArenaStringPtr ping_msg_;
+  friend struct protobuf_inner_2eproto::TableStruct;
+};
 // ===================================================================
 
 
@@ -278,10 +397,79 @@ inline void TestMsg::set_allocated_name(::std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:pb.TestMsg.name)
 }
 
+// -------------------------------------------------------------------
+
+// iTestPingShopREQ
+
+// optional string ping_msg = 1;
+inline bool iTestPingShopREQ::has_ping_msg() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void iTestPingShopREQ::set_has_ping_msg() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void iTestPingShopREQ::clear_has_ping_msg() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void iTestPingShopREQ::clear_ping_msg() {
+  ping_msg_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_ping_msg();
+}
+inline const ::std::string& iTestPingShopREQ::ping_msg() const {
+  // @@protoc_insertion_point(field_get:pb.iTestPingShopREQ.ping_msg)
+  return ping_msg_.GetNoArena();
+}
+inline void iTestPingShopREQ::set_ping_msg(const ::std::string& value) {
+  set_has_ping_msg();
+  ping_msg_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:pb.iTestPingShopREQ.ping_msg)
+}
+#if LANG_CXX11
+inline void iTestPingShopREQ::set_ping_msg(::std::string&& value) {
+  set_has_ping_msg();
+  ping_msg_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:pb.iTestPingShopREQ.ping_msg)
+}
+#endif
+inline void iTestPingShopREQ::set_ping_msg(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  set_has_ping_msg();
+  ping_msg_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:pb.iTestPingShopREQ.ping_msg)
+}
+inline void iTestPingShopREQ::set_ping_msg(const char* value, size_t size) {
+  set_has_ping_msg();
+  ping_msg_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:pb.iTestPingShopREQ.ping_msg)
+}
+inline ::std::string* iTestPingShopREQ::mutable_ping_msg() {
+  set_has_ping_msg();
+  // @@protoc_insertion_point(field_mutable:pb.iTestPingShopREQ.ping_msg)
+  return ping_msg_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* iTestPingShopREQ::release_ping_msg() {
+  // @@protoc_insertion_point(field_release:pb.iTestPingShopREQ.ping_msg)
+  clear_has_ping_msg();
+  return ping_msg_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void iTestPingShopREQ::set_allocated_ping_msg(::std::string* ping_msg) {
+  if (ping_msg != NULL) {
+    set_has_ping_msg();
+  } else {
+    clear_has_ping_msg();
+  }
+  ping_msg_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ping_msg);
+  // @@protoc_insertion_point(field_set_allocated:pb.iTestPingShopREQ.ping_msg)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 

@@ -6,3 +6,8 @@ message TestMsg
     optional int32 id = 1;
     optional string name = 2;
 }
+
+message iTestPingShopREQ
+{
+    optional string ping_msg = 1;
+}
