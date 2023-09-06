@@ -32,6 +32,9 @@ extern "C"
 
     int shop_init(Shop* shop, struct skynet_context* ctx, char* parm)
     {
+        if (!shop->service_init(ctx, parm, strlen_1(parm))) {
+            return -1;
+        }
         skynet_callback(ctx, shop, shop_cb);
         return 0;
     }

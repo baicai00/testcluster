@@ -17,6 +17,8 @@ public:
     void register_callback();
 
     void text_message(const void * msg, size_t sz, uint32_t source, int session);
+
+    void proto_test_ping_shop(Message* data, uint32_t source);
 };
 
 #endif

@@ -47,4 +47,11 @@ inline std::tuple<std::string, std::string> divide_string(const std::string& sou
 	return make_tuple(fir, sec);
 }
 
+inline int strlen_1(const char* str)
+{
+	if (str == NULL)
+		return 0;
+	return strlen(str);
+}
+
 #endif

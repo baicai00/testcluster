@@ -11,3 +11,12 @@ message iTestPingShopREQ
 {
     optional string ping_msg = 1;
 }
+
+message iTestPingActivityREQ
+{
+    optional string ping_msg = 1;
+}
+message iTestPingActivityRSP
+{
+    optional string pong_msg = 1;
+}

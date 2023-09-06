@@ -40,6 +40,7 @@ skynet.start(function ()
 
     cluster.register("shop_master", skynet.self())
     cluster.open("shop_master_4")
+    skynet.register(".shop_master")
 
     local debug_port = assert(skynet.getenv("debug_port"))
     skynet.newservice("debug_console", debug_port)
@@ -60,9 +61,11 @@ skynet.start(function ()
             local args = table.pack(...)
             local netmsg = args[1]
             if netmsg ~= nil then
-                local uid, name, msg = protopack.unpack_raw(netmsg, protobuf)
+                -- local uid, name, msg = protopack.unpack_raw(netmsg, protobuf)
                 -- dispatcher:dispatch(uid, name, msg, session, source, protobuf)
             end
+
+            skynet.redirect(shop, source, "text", session, netmsg)
         end
     end)
 end)
