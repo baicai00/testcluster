@@ -36,6 +36,22 @@ int RpcClient::rpc_call(int32_t dest, const google::protobuf::Message& msg, cons
 	return session;
 }
 
+int RpcClient::rpc_call_proxy(int32_t dest, const google::protobuf::Message& msg, const RPCCallBack& func, int64_t uid, const string& remote_node, const string& remote_service)
+{
+	if (m_service_context == nullptr)
+	{
+		LOG(ERROR) << "m_service_context is nullptr";
+		return 0;
+	}
+	char* data;
+	uint32_t size;
+	int session = skynet_context_newsession(m_service_context->get_skynet_context());
+	serialize_imsg_proxy(msg, data, size, uid, SUBTYPE_RPC_SERVER, 0, remote_node, remote_service);
+	skynet_send_noleak(m_service_context->get_skynet_context(), 0, dest, PTYPE_TEXT | PTYPE_TAG_DONTCOPY, session, data, size);
+	m_rpc[session] = func;
+	return session;
+}
+
 void RpcClient::rpc_cancel(int& id)
 {
 	m_rpc.erase(id);

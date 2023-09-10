@@ -7,11 +7,6 @@ message TestMsg
     optional string name = 2;
 }
 
-message TestPingActivityREQ
-{
-    optional string ping_msg = 1;
-}
-
 message iTestPingShopREQ
 {
     optional string ping_msg = 1;

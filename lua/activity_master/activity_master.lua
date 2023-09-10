@@ -54,7 +54,8 @@ skynet.init(function()
     gtables.register_pb(lua_root, pb_names)
 
     pb_list = {
-        "pb.TestPingActivityREQ",
+        "pb.iTestPingActivityMsg",
+        "pb.iTestPingActivityREQ",
     }
 end)
 
@@ -69,7 +70,7 @@ skynet.start(function()
     local debug_port = assert(skynet.getenv("debug_port"))
     skynet.newservice("debug_console", debug_port)
 
-    for i = 1, 8 do
+    for i = 1, 1 do
         table.insert(sub_services, skynet.newservice("activity", i, table.concat(pb_list, ",")))
     end
 
@@ -89,6 +90,8 @@ skynet.start(function()
             if netmsg ~= nil then
                 local datalen = string.len(netmsg) - 4 - 8 - 2 - 4 -- subtype uid namelen roomid
                 local uid = string.unpack("> L", netmsg, 5)
+
+                beelog_info("session:", session, "source:", source)
 
                 local temp_uid, temp_name, temp_msg = protopack.unpack_raw(netmsg, protobuf)
                 if naming_status_pb_name[temp_name] then

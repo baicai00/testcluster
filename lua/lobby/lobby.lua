@@ -64,13 +64,13 @@ function gtables.test_ping_activity()
     end
 
     local uid = 6
-    local ret = cluster.call("activity_master_5", handle, "lua", "test_ping_activity", uid, "hello activity_master")
+    local ret = cluster.call("activity_master_5", handle, "lua", "test_ping_activity", uid, "hello activity_master, I am lobby")
     beelog_info(ret)
 
     -- test protobuf
     local msg = {ping_msg = "proto hello activity_master"}
     uid = 5
-    local pack_msg = protopack.pack_raw(protopack.SUBTYPE_PROTOBUF, uid, "pb.TestPingActivityREQ", msg, protobuf)
+    local pack_msg = protopack.pack_raw(protopack.SUBTYPE_PROTOBUF, uid, "pb.iTestPingActivityMsg", msg, protobuf)
     cluster.send("activity_master_5", handle, "text", pack_msg)
 end
 
@@ -81,13 +81,13 @@ function gtables.test_ping_activity_with_proxy()
     end
 
     local uid = 6
-    local ret = skynet.call(proxy, "lua", "lua", "test_ping_activity", uid, "hello activity_master")
+    local ret = skynet.call(proxy, "lua", "lua", "test_ping_activity", uid, "hello activity_master, I am lobby")
     beelog_info(ret)
 
     -- test protobuf
     local msg = {ping_msg = "proto hello activity_master"}
     uid = 5
-    local pack_msg = protopack.pack_raw(protopack.SUBTYPE_PROTOBUF, uid, "pb.TestPingActivityREQ", msg, protobuf)
+    local pack_msg = protopack.pack_raw(protopack.SUBTYPE_PROTOBUF, uid, "pb.iTestPingActivityMsg", msg, protobuf)
     skynet.send(proxy, "lua", "text", pack_msg)
 end
 
@@ -123,7 +123,7 @@ function gtables.test_ping_shop()
         return
     end
 
-    local test_msg = {ping_msg = "hello shop"}
+    local test_msg = {ping_msg = "hello shop, I am lobby"}
     local pack_msg = protopack.pack_raw(protopack.SUBTYPE_PROTOBUF, 0, "pb.iTestPingShopREQ", test_msg, protobuf)
     cluster.send("shop_master_4", handle, "text", pack_msg)
 end
@@ -131,6 +131,7 @@ end
 skynet.start(function()
 
     cluster.open("lobby_1")
+    cluster.register("lobby", skynet.self())
 
     local debug_port = assert(skynet.getenv("debug_port"))
     skynet.newservice("debug_console", debug_port)

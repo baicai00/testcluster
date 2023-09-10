@@ -1,10 +1,12 @@
 
-¡
+Õ
 inner.protopb"-
 TestMsg
 id (Rid
-name (	Rname"0
-TestPingActivityREQ
-ping_msg (	RpingMsg"-
+name (	Rname"-
 iTestPingShopREQ
-ping_msg (	RpingMsg
+ping_msg (	RpingMsg"1
+iTestPingActivityREQ
+ping_msg (	RpingMsg"1
+iTestPingActivityRSP
+pong_msg (	RpongMsg

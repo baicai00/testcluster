@@ -20,6 +20,13 @@ skynet.register_protocol {
     unpack = skynet.tostring,
 }
 
+skynet.register_protocol {
+    name = "rpc_response",
+    id = skynet.PTYPE_RESPONSE,
+    pack = function(...) return ... end,
+    unpack = skynet.tostring,
+}
+
 
 function gtables.register_pb(root, names)
     for _, name in ipairs(names) do
@@ -42,8 +49,14 @@ function CMD.test_ping_activity(_, context)
     return "test_ping_activity pong " .. os.time()
 end
 
-function gtables.TestPingActivityREQ(uid, msg)
-    beelog_info("TEST TestPingActivityREQ uid:", uid, "sub_service_id:", sub_service_id, "msg:", tostring(msg))
+function gtables.iTestPingActivityMsg(uid, msg)
+    beelog_info("TEST iTestPingActivityMsg uid:", uid, "sub_service_id:", sub_service_id, "msg:", tostring(msg))
+end
+
+function gtables.iTestPingActivityREQ(uid, msg)
+    beelog_info("TEST iTestPingActivityREQ uid:", uid, "sub_service_id:", sub_service_id, "msg:", tostring(msg))
+    local rsp = {pong_msg = "Hello shop, I am activity from iTestPingActivityREQ"}
+    return "iTestPingActivityRSP", rsp
 end
 
 skynet.init(function ()

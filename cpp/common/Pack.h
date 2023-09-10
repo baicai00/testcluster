@@ -154,12 +154,29 @@ public:
 	const static int kMaxMessageLen = 0x1000000; // 64 * 1024 * 1024 MAX_PACK_SIZE
 };
 
+class OutPackProxy : public OutPack
+{
+public:
+	OutPackProxy(const Message& msg, const std::string& remote_node, const std::string& remote_service);
+	void new_innerpack_proxy(char* &result, uint32_t& size, uint64_t uid, uint32_t type, int32_t roomid);
+
+	std::string m_remote_node_name;
+	std::string m_remote_service_name;
+
+	const static int kUidLen = 8;
+	const static int kSubTypeLen = 4;
+	const static int kNameLen = 2; // 远程节点与服务名称的长度
+};
+
 // 外部的协议，需要和客户端通信
 void serialize_msg(const Message& msg, char* &result, uint32_t& size, uint32_t type, const int32_t& roomid);
 // 内部的协议，不和客户端通信
 void serialize_imsg_type(const Message& msg, char* &result, uint32_t& size, uint64_t uid, uint32_t type, const int32_t& romid);  //不加包头
 
 void serialize_imsg(const Message& msg, char* &result, uint32_t& size, uint64_t uid, const int32_t& roomid);
+
+// 用于C++服务往CServiceProxy服务发送消息
+void serialize_imsg_proxy(const Message& msg, char*& result, uint32_t& size, uint64_t uid, uint32_t sub_type, int32_t roomid, const string& remote_node, const string& remote_service);
 
 class TextParm
 {

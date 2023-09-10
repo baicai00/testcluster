@@ -1,7 +1,6 @@
 require "skynet.manager"
 local skynet = require "skynet"
 local cluster = require "bee_cluster"
-local protopack = require "protopack"
 local protobuf = require "protobuf"
 
 local gtables = {}
@@ -40,12 +39,15 @@ skynet.start(function ()
 
     cluster.register("shop_master", skynet.self())
     cluster.open("shop_master_4")
-    skynet.register(".shop_master")
+    -- skynet.register(".shop_master")
 
     local debug_port = assert(skynet.getenv("debug_port"))
     skynet.newservice("debug_console", debug_port)
 
-    local shop = assert(skynet.launch("shop"))
+    local proxy = skynet.newservice("CServiceProxy")
+
+    local sendline = string.format("%d", proxy)
+    local shop = assert(skynet.launch("shop", sendline))
     -- cluster.register("shop", shop)
 
     skynet.dispatch("lua", function (session , source, sub_type, ...)
@@ -61,11 +63,11 @@ skynet.start(function ()
             local args = table.pack(...)
             local netmsg = args[1]
             if netmsg ~= nil then
-                -- local uid, name, msg = protopack.unpack_raw(netmsg, protobuf)
-                -- dispatcher:dispatch(uid, name, msg, session, source, protobuf)
+                beelog_info("TEST recv session:", session)
+                skynet.redirect(shop, source, "text", session, netmsg)
+            else
+                beelog_error("netmsg is nil")
             end
-
-            skynet.redirect(shop, source, "text", session, netmsg)
         end
     end)
 end)

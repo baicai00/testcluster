@@ -241,7 +241,7 @@ void Service::service_poll(const char* data, uint32_t size, uint32_t source, int
 
     case PTYPE_RESPONSE: // Timer and RPC RESPONSE 可以根据source来判断是rpc还是timer
     {
-        //LOG(INFO) << "PTYPE_RESPONSE source = " << source << " m_parent =  " << m_parent;
+        LOG(INFO) << "PTYPE_RESPONSE source = " << source << " m_parent =  " << m_parent;
         if (source == 0) {
             timer_timeout(session);
         }

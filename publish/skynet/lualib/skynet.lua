@@ -360,6 +360,12 @@ function skynet.rawsend(addr, typename, msg, sz)
 	return c.send(addr, p.id, 0 , msg, sz)
 end
 
+-- function skynet.send_with_session(addr, typename, session, ...)
+-- 	skynet.error("TEST send_with_session session:", session)
+-- 	local p = proto[typename]
+-- 	return c.send(addr, p.id, session, p.pack(...))
+-- end
+
 skynet.genid = assert(c.genid)
 
 skynet.redirect = function(dest,source,typename,...)

@@ -57,12 +57,48 @@ beelog_info(tostring(ret))
 ```sh
 # 在activity_mater主服务上启动8个ativity子服务，转发消息时通过对uid进行哈希运行，以确定处理消息的子服务
 ```
-* C++进程发送与接收pb协议（todo）
+* C++进程接收pb协议
 ```sh
-存在的问题：
-1. c++进程直接使用了skynet_send发送消息，而该API依赖于harbor
-2. cluster相关的服务都是Lua服务，而且cluster发过来的消息必须由clusteragent服务接收，c++进程没有启动cluster相关的服务
+在shop_master中接收pb消息，然后使用skynet.redirect重定向到shop服务上，具体如下所示：
+skynet.dispatch("lua", function (session , source, sub_type, ...)
+    if sub_type == "lua" then
+        local args = table.pack(...)
+        local cmd = args[1]
+        -- local f = assert(CMD[cmd])
+        -- local ret = f(table.unpack(args, 2))
+        -- if session ~= 0 then
+        --     skynet.ret(skynet.pack(ret))
+        -- end
+    elseif sub_type == "text" then
+        local args = table.pack(...)
+        local netmsg = args[1]
+        if netmsg ~= nil then
+            skynet.redirect(shop, source, "text", session, netmsg)
+        else
+            beelog_error("netmsg is nil")
+        end
+    end
+end)
 ```
+* c++服务往lua服务发送pb协议,使用send方式
+```sh
+在shop_master进程中，启动本地服务CServiceProxy，用于转发c++发过来的pb协议到其他进程
+需要注意：
+1.c++服务的消息需要先转发到CServiceProxy，并且需要对消息进行编码，新的消息格式为：【远程节点名长度】【远程服务名长度】【远程节点名】【远程服务名】【原始消息】，其中各部分的长度如下：
+  远程节点名长度：占两字节，big endian
+  远程服务名长度：占两字节，big endian
+  远程节点名：字符串格式，接收消息的节点名称
+  远程服务名：字符串格式，接收消息的服务名称，该服务是远程节点上的一个服务
+  原始消息：对pb消息进行编码后的消息
+  具体实现为Pack.h的OutPackProxy类与serialize_imsg_proxy函数
+2.CServiceProxy服务需要将C++服务发过来的消息进行解码，从消息中解出：远程节点名、远程服务名、原始消息；并且将原始消息发到远程节点
+```
+* c++服务往lua服务发送pb协议,使用rpc_call方式(todo)
+```sh
+在RPC.cpp中实现rpc_call时，应用层会生成一个session，然后使用skynet_send使用该session将该消息发到目的地；
+现在的问题是：如果我们在应用层生成的session，在socketchannel库中找不到该session,会导致错误"socket: unknown session : 32"
+```
+
 * 配置更新 （todo）
 ```sh
 1. 新启动的进程需要加载cluster配置

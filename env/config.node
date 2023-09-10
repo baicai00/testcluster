@@ -30,6 +30,7 @@ lua_path = skynet_root .. "lualib/?.lua;" ..skynet_root.."lualib/?/?.lua;"
 .. lua_root .. "activity_master/?.lua;"
 
 luaservice = skynet_root .. "service/?.lua;" .. lua_root .. "?.lua;"
+.. lua_root .. "common/?.lua;"
 .. lua_root .. "lobby/?.lua;"
 .. lua_root .. "lpersistence/?.lua;"
 .. lua_root .. "BeeCluster/?.lua;"

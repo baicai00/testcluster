@@ -23,6 +23,7 @@ public:
 	RpcClient();
 	void rpc_init_client(ServiceContext*);
 	int rpc_call(int32_t dest, const google::protobuf::Message& msg, const RPCCallBack& func, int64_t uid);
+	int rpc_call_proxy(int32_t dest, const google::protobuf::Message& msg, const RPCCallBack& func, int64_t uid, const string& remote_node, const string& remote_service);
 	void rpc_cancel(int& id);
 	void rpc_event_client(const char* data, uint32_t size, uint32_t source, int session);
 private:

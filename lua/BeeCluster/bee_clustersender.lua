@@ -41,6 +41,13 @@ function command.push(addr, msg, sz)
     channel:request(request, nil, padding)
 end
 
+-- function command.push_with_session(arg_session, addr, msg, sz)
+--     skynet.error("TEST bee_clustersender push_with_session arg_session:", arg_session)
+--     local request, new_session, padding = cluster.packrequest(addr, arg_session, msg, sz)
+--     session = new_session
+--     channel:request(request, nil, padding)
+-- end
+
 local function read_response(sock)
     local sz = socket.header(sock:read(2))
     local msg = sock:read(sz)
@@ -67,6 +74,10 @@ skynet.start(function()
         }
     skynet.dispatch("lua", function(session , source, cmd, ...)
         local f = assert(command[cmd])
+        -- if cmd == "push_with_session" then
+        --     f(session, ...)
+        --     return
+        -- end
         f(...)
     end)
 end)

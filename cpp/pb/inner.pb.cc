@@ -28,13 +28,33 @@ public:
  ::google::protobuf::internal::ExplicitlyConstructed<iTestPingShopREQ>
      _instance;
 } _iTestPingShopREQ_default_instance_;
+class iTestPingActivityMsgDefaultTypeInternal {
+public:
+ ::google::protobuf::internal::ExplicitlyConstructed<iTestPingActivityMsg>
+     _instance;
+} _iTestPingActivityMsg_default_instance_;
+class iTestPingActivityREQDefaultTypeInternal {
+public:
+ ::google::protobuf::internal::ExplicitlyConstructed<iTestPingActivityREQ>
+     _instance;
+} _iTestPingActivityREQ_default_instance_;
+class iTestPingActivityRSPDefaultTypeInternal {
+public:
+ ::google::protobuf::internal::ExplicitlyConstructed<iTestPingActivityRSP>
+     _instance;
+} _iTestPingActivityRSP_default_instance_;
+class iTestForwardMsgDefaultTypeInternal {
+public:
+ ::google::protobuf::internal::ExplicitlyConstructed<iTestForwardMsg>
+     _instance;
+} _iTestForwardMsg_default_instance_;
 
 namespace protobuf_inner_2eproto {
 
 
 namespace {
 
-::google::protobuf::Metadata file_level_metadata[2];
+::google::protobuf::Metadata file_level_metadata[6];
 
 }  // namespace
 
@@ -49,6 +69,10 @@ PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::AuxillaryParseTableField
 };
 PROTOBUF_CONSTEXPR_VAR ::google::protobuf::internal::ParseTable const
     TableStruct::schema[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
+  { NULL, NULL, 0, -1, -1, -1, -1, NULL, false },
+  { NULL, NULL, 0, -1, -1, -1, -1, NULL, false },
+  { NULL, NULL, 0, -1, -1, -1, -1, NULL, false },
+  { NULL, NULL, 0, -1, -1, -1, -1, NULL, false },
   { NULL, NULL, 0, -1, -1, -1, -1, NULL, false },
   { NULL, NULL, 0, -1, -1, -1, -1, NULL, false },
 };
@@ -70,15 +94,55 @@ const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_ATTRIBUTE_SECTION
   ~0u,  // no _weak_field_map_
   GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(iTestPingShopREQ, ping_msg_),
   0,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(iTestPingActivityMsg, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(iTestPingActivityMsg, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(iTestPingActivityMsg, ping_msg_),
+  0,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(iTestPingActivityREQ, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(iTestPingActivityREQ, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(iTestPingActivityREQ, ping_msg_),
+  0,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(iTestPingActivityRSP, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(iTestPingActivityRSP, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(iTestPingActivityRSP, pong_msg_),
+  0,
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(iTestForwardMsg, _has_bits_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(iTestForwardMsg, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(iTestForwardMsg, remote_node_name_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(iTestForwardMsg, remote_service_name_),
+  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(iTestForwardMsg, netmsg_),
+  0,
+  1,
+  2,
 };
 static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 7, sizeof(TestMsg)},
   { 9, 15, sizeof(iTestPingShopREQ)},
+  { 16, 22, sizeof(iTestPingActivityMsg)},
+  { 23, 29, sizeof(iTestPingActivityREQ)},
+  { 30, 36, sizeof(iTestPingActivityRSP)},
+  { 37, 45, sizeof(iTestForwardMsg)},
 };
 
 static ::google::protobuf::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::google::protobuf::Message*>(&_TestMsg_default_instance_),
   reinterpret_cast<const ::google::protobuf::Message*>(&_iTestPingShopREQ_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&_iTestPingActivityMsg_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&_iTestPingActivityREQ_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&_iTestPingActivityRSP_default_instance_),
+  reinterpret_cast<const ::google::protobuf::Message*>(&_iTestForwardMsg_default_instance_),
 };
 
 namespace {
@@ -99,7 +163,7 @@ void protobuf_AssignDescriptorsOnce() {
 void protobuf_RegisterTypes(const ::std::string&) GOOGLE_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 2);
+  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 6);
 }
 
 }  // namespace
@@ -111,7 +175,15 @@ void TableStruct::InitDefaultsImpl() {
   ::google::protobuf::internal::OnShutdownDestroyMessage(
       &_TestMsg_default_instance_);_iTestPingShopREQ_default_instance_._instance.DefaultConstruct();
   ::google::protobuf::internal::OnShutdownDestroyMessage(
-      &_iTestPingShopREQ_default_instance_);}
+      &_iTestPingShopREQ_default_instance_);_iTestPingActivityMsg_default_instance_._instance.DefaultConstruct();
+  ::google::protobuf::internal::OnShutdownDestroyMessage(
+      &_iTestPingActivityMsg_default_instance_);_iTestPingActivityREQ_default_instance_._instance.DefaultConstruct();
+  ::google::protobuf::internal::OnShutdownDestroyMessage(
+      &_iTestPingActivityREQ_default_instance_);_iTestPingActivityRSP_default_instance_._instance.DefaultConstruct();
+  ::google::protobuf::internal::OnShutdownDestroyMessage(
+      &_iTestPingActivityRSP_default_instance_);_iTestForwardMsg_default_instance_._instance.DefaultConstruct();
+  ::google::protobuf::internal::OnShutdownDestroyMessage(
+      &_iTestForwardMsg_default_instance_);}
 
 void InitDefaults() {
   static GOOGLE_PROTOBUF_DECLARE_ONCE(once);
@@ -123,10 +195,15 @@ void AddDescriptorsImpl() {
   static const char descriptor[] GOOGLE_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\013inner.proto\022\002pb\"#\n\007TestMsg\022\n\n\002id\030\001 \001(\005"
       "\022\014\n\004name\030\002 \001(\t\"$\n\020iTestPingShopREQ\022\020\n\010pi"
-      "ng_msg\030\001 \001(\t"
+      "ng_msg\030\001 \001(\t\"(\n\024iTestPingActivityMsg\022\020\n\010"
+      "ping_msg\030\001 \001(\t\"(\n\024iTestPingActivityREQ\022\020"
+      "\n\010ping_msg\030\001 \001(\t\"(\n\024iTestPingActivityRSP"
+      "\022\020\n\010pong_msg\030\001 \001(\t\"X\n\017iTestForwardMsg\022\030\n"
+      "\020remote_node_name\030\001 \001(\t\022\033\n\023remote_servic"
+      "e_name\030\002 \001(\t\022\016\n\006netmsg\030\003 \001(\014"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 92);
+      descriptor, 308);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "inner.proto", &protobuf_RegisterTypes);
 }
@@ -869,6 +946,1564 @@ void iTestPingShopREQ::set_allocated_ping_msg(::std::string* ping_msg) {
   }
   ping_msg_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ping_msg);
   // @@protoc_insertion_point(field_set_allocated:pb.iTestPingShopREQ.ping_msg)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
+
+// ===================================================================
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int iTestPingActivityMsg::kPingMsgFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+iTestPingActivityMsg::iTestPingActivityMsg()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    protobuf_inner_2eproto::InitDefaults();
+  }
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:pb.iTestPingActivityMsg)
+}
+iTestPingActivityMsg::iTestPingActivityMsg(const iTestPingActivityMsg& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ping_msg_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_ping_msg()) {
+    ping_msg_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.ping_msg_);
+  }
+  // @@protoc_insertion_point(copy_constructor:pb.iTestPingActivityMsg)
+}
+
+void iTestPingActivityMsg::SharedCtor() {
+  _cached_size_ = 0;
+  ping_msg_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+iTestPingActivityMsg::~iTestPingActivityMsg() {
+  // @@protoc_insertion_point(destructor:pb.iTestPingActivityMsg)
+  SharedDtor();
+}
+
+void iTestPingActivityMsg::SharedDtor() {
+  ping_msg_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void iTestPingActivityMsg::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* iTestPingActivityMsg::descriptor() {
+  protobuf_inner_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_inner_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const iTestPingActivityMsg& iTestPingActivityMsg::default_instance() {
+  protobuf_inner_2eproto::InitDefaults();
+  return *internal_default_instance();
+}
+
+iTestPingActivityMsg* iTestPingActivityMsg::New(::google::protobuf::Arena* arena) const {
+  iTestPingActivityMsg* n = new iTestPingActivityMsg;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void iTestPingActivityMsg::Clear() {
+// @@protoc_insertion_point(message_clear_start:pb.iTestPingActivityMsg)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (has_ping_msg()) {
+    GOOGLE_DCHECK(!ping_msg_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+    (*ping_msg_.UnsafeRawStringPointer())->clear();
+  }
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
+}
+
+bool iTestPingActivityMsg::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:pb.iTestPingActivityMsg)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // optional string ping_msg = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_ping_msg()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->ping_msg().data(), static_cast<int>(this->ping_msg().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "pb.iTestPingActivityMsg.ping_msg");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:pb.iTestPingActivityMsg)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:pb.iTestPingActivityMsg)
+  return false;
+#undef DO_
+}
+
+void iTestPingActivityMsg::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:pb.iTestPingActivityMsg)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // optional string ping_msg = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->ping_msg().data(), static_cast<int>(this->ping_msg().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "pb.iTestPingActivityMsg.ping_msg");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->ping_msg(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        _internal_metadata_.unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:pb.iTestPingActivityMsg)
+}
+
+::google::protobuf::uint8* iTestPingActivityMsg::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:pb.iTestPingActivityMsg)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // optional string ping_msg = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->ping_msg().data(), static_cast<int>(this->ping_msg().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "pb.iTestPingActivityMsg.ping_msg");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->ping_msg(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:pb.iTestPingActivityMsg)
+  return target;
+}
+
+size_t iTestPingActivityMsg::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:pb.iTestPingActivityMsg)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        _internal_metadata_.unknown_fields());
+  }
+  // optional string ping_msg = 1;
+  if (has_ping_msg()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->ping_msg());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void iTestPingActivityMsg::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:pb.iTestPingActivityMsg)
+  GOOGLE_DCHECK_NE(&from, this);
+  const iTestPingActivityMsg* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const iTestPingActivityMsg>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:pb.iTestPingActivityMsg)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:pb.iTestPingActivityMsg)
+    MergeFrom(*source);
+  }
+}
+
+void iTestPingActivityMsg::MergeFrom(const iTestPingActivityMsg& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:pb.iTestPingActivityMsg)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.has_ping_msg()) {
+    set_has_ping_msg();
+    ping_msg_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.ping_msg_);
+  }
+}
+
+void iTestPingActivityMsg::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:pb.iTestPingActivityMsg)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void iTestPingActivityMsg::CopyFrom(const iTestPingActivityMsg& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:pb.iTestPingActivityMsg)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool iTestPingActivityMsg::IsInitialized() const {
+  return true;
+}
+
+void iTestPingActivityMsg::Swap(iTestPingActivityMsg* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void iTestPingActivityMsg::InternalSwap(iTestPingActivityMsg* other) {
+  using std::swap;
+  ping_msg_.Swap(&other->ping_msg_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata iTestPingActivityMsg::GetMetadata() const {
+  protobuf_inner_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_inner_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// iTestPingActivityMsg
+
+// optional string ping_msg = 1;
+bool iTestPingActivityMsg::has_ping_msg() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void iTestPingActivityMsg::set_has_ping_msg() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void iTestPingActivityMsg::clear_has_ping_msg() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void iTestPingActivityMsg::clear_ping_msg() {
+  ping_msg_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_ping_msg();
+}
+const ::std::string& iTestPingActivityMsg::ping_msg() const {
+  // @@protoc_insertion_point(field_get:pb.iTestPingActivityMsg.ping_msg)
+  return ping_msg_.GetNoArena();
+}
+void iTestPingActivityMsg::set_ping_msg(const ::std::string& value) {
+  set_has_ping_msg();
+  ping_msg_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:pb.iTestPingActivityMsg.ping_msg)
+}
+#if LANG_CXX11
+void iTestPingActivityMsg::set_ping_msg(::std::string&& value) {
+  set_has_ping_msg();
+  ping_msg_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:pb.iTestPingActivityMsg.ping_msg)
+}
+#endif
+void iTestPingActivityMsg::set_ping_msg(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  set_has_ping_msg();
+  ping_msg_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:pb.iTestPingActivityMsg.ping_msg)
+}
+void iTestPingActivityMsg::set_ping_msg(const char* value, size_t size) {
+  set_has_ping_msg();
+  ping_msg_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:pb.iTestPingActivityMsg.ping_msg)
+}
+::std::string* iTestPingActivityMsg::mutable_ping_msg() {
+  set_has_ping_msg();
+  // @@protoc_insertion_point(field_mutable:pb.iTestPingActivityMsg.ping_msg)
+  return ping_msg_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+::std::string* iTestPingActivityMsg::release_ping_msg() {
+  // @@protoc_insertion_point(field_release:pb.iTestPingActivityMsg.ping_msg)
+  clear_has_ping_msg();
+  return ping_msg_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+void iTestPingActivityMsg::set_allocated_ping_msg(::std::string* ping_msg) {
+  if (ping_msg != NULL) {
+    set_has_ping_msg();
+  } else {
+    clear_has_ping_msg();
+  }
+  ping_msg_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ping_msg);
+  // @@protoc_insertion_point(field_set_allocated:pb.iTestPingActivityMsg.ping_msg)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
+
+// ===================================================================
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int iTestPingActivityREQ::kPingMsgFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+iTestPingActivityREQ::iTestPingActivityREQ()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    protobuf_inner_2eproto::InitDefaults();
+  }
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:pb.iTestPingActivityREQ)
+}
+iTestPingActivityREQ::iTestPingActivityREQ(const iTestPingActivityREQ& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ping_msg_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_ping_msg()) {
+    ping_msg_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.ping_msg_);
+  }
+  // @@protoc_insertion_point(copy_constructor:pb.iTestPingActivityREQ)
+}
+
+void iTestPingActivityREQ::SharedCtor() {
+  _cached_size_ = 0;
+  ping_msg_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+iTestPingActivityREQ::~iTestPingActivityREQ() {
+  // @@protoc_insertion_point(destructor:pb.iTestPingActivityREQ)
+  SharedDtor();
+}
+
+void iTestPingActivityREQ::SharedDtor() {
+  ping_msg_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void iTestPingActivityREQ::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* iTestPingActivityREQ::descriptor() {
+  protobuf_inner_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_inner_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const iTestPingActivityREQ& iTestPingActivityREQ::default_instance() {
+  protobuf_inner_2eproto::InitDefaults();
+  return *internal_default_instance();
+}
+
+iTestPingActivityREQ* iTestPingActivityREQ::New(::google::protobuf::Arena* arena) const {
+  iTestPingActivityREQ* n = new iTestPingActivityREQ;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void iTestPingActivityREQ::Clear() {
+// @@protoc_insertion_point(message_clear_start:pb.iTestPingActivityREQ)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (has_ping_msg()) {
+    GOOGLE_DCHECK(!ping_msg_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+    (*ping_msg_.UnsafeRawStringPointer())->clear();
+  }
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
+}
+
+bool iTestPingActivityREQ::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:pb.iTestPingActivityREQ)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // optional string ping_msg = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_ping_msg()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->ping_msg().data(), static_cast<int>(this->ping_msg().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "pb.iTestPingActivityREQ.ping_msg");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:pb.iTestPingActivityREQ)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:pb.iTestPingActivityREQ)
+  return false;
+#undef DO_
+}
+
+void iTestPingActivityREQ::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:pb.iTestPingActivityREQ)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // optional string ping_msg = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->ping_msg().data(), static_cast<int>(this->ping_msg().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "pb.iTestPingActivityREQ.ping_msg");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->ping_msg(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        _internal_metadata_.unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:pb.iTestPingActivityREQ)
+}
+
+::google::protobuf::uint8* iTestPingActivityREQ::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:pb.iTestPingActivityREQ)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // optional string ping_msg = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->ping_msg().data(), static_cast<int>(this->ping_msg().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "pb.iTestPingActivityREQ.ping_msg");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->ping_msg(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:pb.iTestPingActivityREQ)
+  return target;
+}
+
+size_t iTestPingActivityREQ::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:pb.iTestPingActivityREQ)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        _internal_metadata_.unknown_fields());
+  }
+  // optional string ping_msg = 1;
+  if (has_ping_msg()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->ping_msg());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void iTestPingActivityREQ::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:pb.iTestPingActivityREQ)
+  GOOGLE_DCHECK_NE(&from, this);
+  const iTestPingActivityREQ* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const iTestPingActivityREQ>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:pb.iTestPingActivityREQ)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:pb.iTestPingActivityREQ)
+    MergeFrom(*source);
+  }
+}
+
+void iTestPingActivityREQ::MergeFrom(const iTestPingActivityREQ& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:pb.iTestPingActivityREQ)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.has_ping_msg()) {
+    set_has_ping_msg();
+    ping_msg_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.ping_msg_);
+  }
+}
+
+void iTestPingActivityREQ::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:pb.iTestPingActivityREQ)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void iTestPingActivityREQ::CopyFrom(const iTestPingActivityREQ& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:pb.iTestPingActivityREQ)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool iTestPingActivityREQ::IsInitialized() const {
+  return true;
+}
+
+void iTestPingActivityREQ::Swap(iTestPingActivityREQ* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void iTestPingActivityREQ::InternalSwap(iTestPingActivityREQ* other) {
+  using std::swap;
+  ping_msg_.Swap(&other->ping_msg_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata iTestPingActivityREQ::GetMetadata() const {
+  protobuf_inner_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_inner_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// iTestPingActivityREQ
+
+// optional string ping_msg = 1;
+bool iTestPingActivityREQ::has_ping_msg() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void iTestPingActivityREQ::set_has_ping_msg() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void iTestPingActivityREQ::clear_has_ping_msg() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void iTestPingActivityREQ::clear_ping_msg() {
+  ping_msg_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_ping_msg();
+}
+const ::std::string& iTestPingActivityREQ::ping_msg() const {
+  // @@protoc_insertion_point(field_get:pb.iTestPingActivityREQ.ping_msg)
+  return ping_msg_.GetNoArena();
+}
+void iTestPingActivityREQ::set_ping_msg(const ::std::string& value) {
+  set_has_ping_msg();
+  ping_msg_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:pb.iTestPingActivityREQ.ping_msg)
+}
+#if LANG_CXX11
+void iTestPingActivityREQ::set_ping_msg(::std::string&& value) {
+  set_has_ping_msg();
+  ping_msg_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:pb.iTestPingActivityREQ.ping_msg)
+}
+#endif
+void iTestPingActivityREQ::set_ping_msg(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  set_has_ping_msg();
+  ping_msg_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:pb.iTestPingActivityREQ.ping_msg)
+}
+void iTestPingActivityREQ::set_ping_msg(const char* value, size_t size) {
+  set_has_ping_msg();
+  ping_msg_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:pb.iTestPingActivityREQ.ping_msg)
+}
+::std::string* iTestPingActivityREQ::mutable_ping_msg() {
+  set_has_ping_msg();
+  // @@protoc_insertion_point(field_mutable:pb.iTestPingActivityREQ.ping_msg)
+  return ping_msg_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+::std::string* iTestPingActivityREQ::release_ping_msg() {
+  // @@protoc_insertion_point(field_release:pb.iTestPingActivityREQ.ping_msg)
+  clear_has_ping_msg();
+  return ping_msg_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+void iTestPingActivityREQ::set_allocated_ping_msg(::std::string* ping_msg) {
+  if (ping_msg != NULL) {
+    set_has_ping_msg();
+  } else {
+    clear_has_ping_msg();
+  }
+  ping_msg_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ping_msg);
+  // @@protoc_insertion_point(field_set_allocated:pb.iTestPingActivityREQ.ping_msg)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
+
+// ===================================================================
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int iTestPingActivityRSP::kPongMsgFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+iTestPingActivityRSP::iTestPingActivityRSP()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    protobuf_inner_2eproto::InitDefaults();
+  }
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:pb.iTestPingActivityRSP)
+}
+iTestPingActivityRSP::iTestPingActivityRSP(const iTestPingActivityRSP& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  pong_msg_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_pong_msg()) {
+    pong_msg_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.pong_msg_);
+  }
+  // @@protoc_insertion_point(copy_constructor:pb.iTestPingActivityRSP)
+}
+
+void iTestPingActivityRSP::SharedCtor() {
+  _cached_size_ = 0;
+  pong_msg_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+iTestPingActivityRSP::~iTestPingActivityRSP() {
+  // @@protoc_insertion_point(destructor:pb.iTestPingActivityRSP)
+  SharedDtor();
+}
+
+void iTestPingActivityRSP::SharedDtor() {
+  pong_msg_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void iTestPingActivityRSP::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* iTestPingActivityRSP::descriptor() {
+  protobuf_inner_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_inner_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const iTestPingActivityRSP& iTestPingActivityRSP::default_instance() {
+  protobuf_inner_2eproto::InitDefaults();
+  return *internal_default_instance();
+}
+
+iTestPingActivityRSP* iTestPingActivityRSP::New(::google::protobuf::Arena* arena) const {
+  iTestPingActivityRSP* n = new iTestPingActivityRSP;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void iTestPingActivityRSP::Clear() {
+// @@protoc_insertion_point(message_clear_start:pb.iTestPingActivityRSP)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (has_pong_msg()) {
+    GOOGLE_DCHECK(!pong_msg_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+    (*pong_msg_.UnsafeRawStringPointer())->clear();
+  }
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
+}
+
+bool iTestPingActivityRSP::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:pb.iTestPingActivityRSP)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // optional string pong_msg = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_pong_msg()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->pong_msg().data(), static_cast<int>(this->pong_msg().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "pb.iTestPingActivityRSP.pong_msg");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:pb.iTestPingActivityRSP)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:pb.iTestPingActivityRSP)
+  return false;
+#undef DO_
+}
+
+void iTestPingActivityRSP::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:pb.iTestPingActivityRSP)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // optional string pong_msg = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->pong_msg().data(), static_cast<int>(this->pong_msg().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "pb.iTestPingActivityRSP.pong_msg");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->pong_msg(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        _internal_metadata_.unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:pb.iTestPingActivityRSP)
+}
+
+::google::protobuf::uint8* iTestPingActivityRSP::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:pb.iTestPingActivityRSP)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // optional string pong_msg = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->pong_msg().data(), static_cast<int>(this->pong_msg().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "pb.iTestPingActivityRSP.pong_msg");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->pong_msg(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:pb.iTestPingActivityRSP)
+  return target;
+}
+
+size_t iTestPingActivityRSP::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:pb.iTestPingActivityRSP)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        _internal_metadata_.unknown_fields());
+  }
+  // optional string pong_msg = 1;
+  if (has_pong_msg()) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->pong_msg());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void iTestPingActivityRSP::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:pb.iTestPingActivityRSP)
+  GOOGLE_DCHECK_NE(&from, this);
+  const iTestPingActivityRSP* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const iTestPingActivityRSP>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:pb.iTestPingActivityRSP)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:pb.iTestPingActivityRSP)
+    MergeFrom(*source);
+  }
+}
+
+void iTestPingActivityRSP::MergeFrom(const iTestPingActivityRSP& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:pb.iTestPingActivityRSP)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.has_pong_msg()) {
+    set_has_pong_msg();
+    pong_msg_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.pong_msg_);
+  }
+}
+
+void iTestPingActivityRSP::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:pb.iTestPingActivityRSP)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void iTestPingActivityRSP::CopyFrom(const iTestPingActivityRSP& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:pb.iTestPingActivityRSP)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool iTestPingActivityRSP::IsInitialized() const {
+  return true;
+}
+
+void iTestPingActivityRSP::Swap(iTestPingActivityRSP* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void iTestPingActivityRSP::InternalSwap(iTestPingActivityRSP* other) {
+  using std::swap;
+  pong_msg_.Swap(&other->pong_msg_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata iTestPingActivityRSP::GetMetadata() const {
+  protobuf_inner_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_inner_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// iTestPingActivityRSP
+
+// optional string pong_msg = 1;
+bool iTestPingActivityRSP::has_pong_msg() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void iTestPingActivityRSP::set_has_pong_msg() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void iTestPingActivityRSP::clear_has_pong_msg() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void iTestPingActivityRSP::clear_pong_msg() {
+  pong_msg_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_pong_msg();
+}
+const ::std::string& iTestPingActivityRSP::pong_msg() const {
+  // @@protoc_insertion_point(field_get:pb.iTestPingActivityRSP.pong_msg)
+  return pong_msg_.GetNoArena();
+}
+void iTestPingActivityRSP::set_pong_msg(const ::std::string& value) {
+  set_has_pong_msg();
+  pong_msg_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:pb.iTestPingActivityRSP.pong_msg)
+}
+#if LANG_CXX11
+void iTestPingActivityRSP::set_pong_msg(::std::string&& value) {
+  set_has_pong_msg();
+  pong_msg_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:pb.iTestPingActivityRSP.pong_msg)
+}
+#endif
+void iTestPingActivityRSP::set_pong_msg(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  set_has_pong_msg();
+  pong_msg_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:pb.iTestPingActivityRSP.pong_msg)
+}
+void iTestPingActivityRSP::set_pong_msg(const char* value, size_t size) {
+  set_has_pong_msg();
+  pong_msg_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:pb.iTestPingActivityRSP.pong_msg)
+}
+::std::string* iTestPingActivityRSP::mutable_pong_msg() {
+  set_has_pong_msg();
+  // @@protoc_insertion_point(field_mutable:pb.iTestPingActivityRSP.pong_msg)
+  return pong_msg_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+::std::string* iTestPingActivityRSP::release_pong_msg() {
+  // @@protoc_insertion_point(field_release:pb.iTestPingActivityRSP.pong_msg)
+  clear_has_pong_msg();
+  return pong_msg_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+void iTestPingActivityRSP::set_allocated_pong_msg(::std::string* pong_msg) {
+  if (pong_msg != NULL) {
+    set_has_pong_msg();
+  } else {
+    clear_has_pong_msg();
+  }
+  pong_msg_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), pong_msg);
+  // @@protoc_insertion_point(field_set_allocated:pb.iTestPingActivityRSP.pong_msg)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
+
+// ===================================================================
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int iTestForwardMsg::kRemoteNodeNameFieldNumber;
+const int iTestForwardMsg::kRemoteServiceNameFieldNumber;
+const int iTestForwardMsg::kNetmsgFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+iTestForwardMsg::iTestForwardMsg()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (GOOGLE_PREDICT_TRUE(this != internal_default_instance())) {
+    protobuf_inner_2eproto::InitDefaults();
+  }
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:pb.iTestForwardMsg)
+}
+iTestForwardMsg::iTestForwardMsg(const iTestForwardMsg& from)
+  : ::google::protobuf::Message(),
+      _internal_metadata_(NULL),
+      _has_bits_(from._has_bits_),
+      _cached_size_(0) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  remote_node_name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_remote_node_name()) {
+    remote_node_name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.remote_node_name_);
+  }
+  remote_service_name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_remote_service_name()) {
+    remote_service_name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.remote_service_name_);
+  }
+  netmsg_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (from.has_netmsg()) {
+    netmsg_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.netmsg_);
+  }
+  // @@protoc_insertion_point(copy_constructor:pb.iTestForwardMsg)
+}
+
+void iTestForwardMsg::SharedCtor() {
+  _cached_size_ = 0;
+  remote_node_name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  remote_service_name_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  netmsg_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+iTestForwardMsg::~iTestForwardMsg() {
+  // @@protoc_insertion_point(destructor:pb.iTestForwardMsg)
+  SharedDtor();
+}
+
+void iTestForwardMsg::SharedDtor() {
+  remote_node_name_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  remote_service_name_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  netmsg_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void iTestForwardMsg::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* iTestForwardMsg::descriptor() {
+  protobuf_inner_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_inner_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
+}
+
+const iTestForwardMsg& iTestForwardMsg::default_instance() {
+  protobuf_inner_2eproto::InitDefaults();
+  return *internal_default_instance();
+}
+
+iTestForwardMsg* iTestForwardMsg::New(::google::protobuf::Arena* arena) const {
+  iTestForwardMsg* n = new iTestForwardMsg;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void iTestForwardMsg::Clear() {
+// @@protoc_insertion_point(message_clear_start:pb.iTestForwardMsg)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 7u) {
+    if (cached_has_bits & 0x00000001u) {
+      GOOGLE_DCHECK(!remote_node_name_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*remote_node_name_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      GOOGLE_DCHECK(!remote_service_name_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*remote_service_name_.UnsafeRawStringPointer())->clear();
+    }
+    if (cached_has_bits & 0x00000004u) {
+      GOOGLE_DCHECK(!netmsg_.IsDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited()));
+      (*netmsg_.UnsafeRawStringPointer())->clear();
+    }
+  }
+  _has_bits_.Clear();
+  _internal_metadata_.Clear();
+}
+
+bool iTestForwardMsg::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:pb.iTestForwardMsg)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // optional string remote_node_name = 1;
+      case 1: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_remote_node_name()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->remote_node_name().data(), static_cast<int>(this->remote_node_name().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "pb.iTestForwardMsg.remote_node_name");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional string remote_service_name = 2;
+      case 2: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_remote_service_name()));
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+            this->remote_service_name().data(), static_cast<int>(this->remote_service_name().length()),
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "pb.iTestForwardMsg.remote_service_name");
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      // optional bytes netmsg = 3;
+      case 3: {
+        if (static_cast< ::google::protobuf::uint8>(tag) ==
+            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+                input, this->mutable_netmsg()));
+        } else {
+          goto handle_unusual;
+        }
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormat::SkipField(
+              input, tag, _internal_metadata_.mutable_unknown_fields()));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:pb.iTestForwardMsg)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:pb.iTestForwardMsg)
+  return false;
+#undef DO_
+}
+
+void iTestForwardMsg::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:pb.iTestForwardMsg)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // optional string remote_node_name = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->remote_node_name().data(), static_cast<int>(this->remote_node_name().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "pb.iTestForwardMsg.remote_node_name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->remote_node_name(), output);
+  }
+
+  // optional string remote_service_name = 2;
+  if (cached_has_bits & 0x00000002u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->remote_service_name().data(), static_cast<int>(this->remote_service_name().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "pb.iTestForwardMsg.remote_service_name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      2, this->remote_service_name(), output);
+  }
+
+  // optional bytes netmsg = 3;
+  if (cached_has_bits & 0x00000004u) {
+    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+      3, this->netmsg(), output);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
+        _internal_metadata_.unknown_fields(), output);
+  }
+  // @@protoc_insertion_point(serialize_end:pb.iTestForwardMsg)
+}
+
+::google::protobuf::uint8* iTestForwardMsg::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:pb.iTestForwardMsg)
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = _has_bits_[0];
+  // optional string remote_node_name = 1;
+  if (cached_has_bits & 0x00000001u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->remote_node_name().data(), static_cast<int>(this->remote_node_name().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "pb.iTestForwardMsg.remote_node_name");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->remote_node_name(), target);
+  }
+
+  // optional string remote_service_name = 2;
+  if (cached_has_bits & 0x00000002u) {
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->remote_service_name().data(), static_cast<int>(this->remote_service_name().length()),
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "pb.iTestForwardMsg.remote_service_name");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        2, this->remote_service_name(), target);
+  }
+
+  // optional bytes netmsg = 3;
+  if (cached_has_bits & 0x00000004u) {
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+        3, this->netmsg(), target);
+  }
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:pb.iTestForwardMsg)
+  return target;
+}
+
+size_t iTestForwardMsg::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:pb.iTestForwardMsg)
+  size_t total_size = 0;
+
+  if (_internal_metadata_.have_unknown_fields()) {
+    total_size +=
+      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
+        _internal_metadata_.unknown_fields());
+  }
+  if (_has_bits_[0 / 32] & 7u) {
+    // optional string remote_node_name = 1;
+    if (has_remote_node_name()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->remote_node_name());
+    }
+
+    // optional string remote_service_name = 2;
+    if (has_remote_service_name()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::StringSize(
+          this->remote_service_name());
+    }
+
+    // optional bytes netmsg = 3;
+    if (has_netmsg()) {
+      total_size += 1 +
+        ::google::protobuf::internal::WireFormatLite::BytesSize(
+          this->netmsg());
+    }
+
+  }
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void iTestForwardMsg::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:pb.iTestForwardMsg)
+  GOOGLE_DCHECK_NE(&from, this);
+  const iTestForwardMsg* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const iTestForwardMsg>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:pb.iTestForwardMsg)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:pb.iTestForwardMsg)
+    MergeFrom(*source);
+  }
+}
+
+void iTestForwardMsg::MergeFrom(const iTestForwardMsg& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:pb.iTestForwardMsg)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::google::protobuf::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  cached_has_bits = from._has_bits_[0];
+  if (cached_has_bits & 7u) {
+    if (cached_has_bits & 0x00000001u) {
+      set_has_remote_node_name();
+      remote_node_name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.remote_node_name_);
+    }
+    if (cached_has_bits & 0x00000002u) {
+      set_has_remote_service_name();
+      remote_service_name_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.remote_service_name_);
+    }
+    if (cached_has_bits & 0x00000004u) {
+      set_has_netmsg();
+      netmsg_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.netmsg_);
+    }
+  }
+}
+
+void iTestForwardMsg::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:pb.iTestForwardMsg)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void iTestForwardMsg::CopyFrom(const iTestForwardMsg& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:pb.iTestForwardMsg)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool iTestForwardMsg::IsInitialized() const {
+  return true;
+}
+
+void iTestForwardMsg::Swap(iTestForwardMsg* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void iTestForwardMsg::InternalSwap(iTestForwardMsg* other) {
+  using std::swap;
+  remote_node_name_.Swap(&other->remote_node_name_);
+  remote_service_name_.Swap(&other->remote_service_name_);
+  netmsg_.Swap(&other->netmsg_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata iTestForwardMsg::GetMetadata() const {
+  protobuf_inner_2eproto::protobuf_AssignDescriptorsOnce();
+  return protobuf_inner_2eproto::file_level_metadata[kIndexInFileMessages];
+}
+
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// iTestForwardMsg
+
+// optional string remote_node_name = 1;
+bool iTestForwardMsg::has_remote_node_name() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void iTestForwardMsg::set_has_remote_node_name() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void iTestForwardMsg::clear_has_remote_node_name() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void iTestForwardMsg::clear_remote_node_name() {
+  remote_node_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_remote_node_name();
+}
+const ::std::string& iTestForwardMsg::remote_node_name() const {
+  // @@protoc_insertion_point(field_get:pb.iTestForwardMsg.remote_node_name)
+  return remote_node_name_.GetNoArena();
+}
+void iTestForwardMsg::set_remote_node_name(const ::std::string& value) {
+  set_has_remote_node_name();
+  remote_node_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:pb.iTestForwardMsg.remote_node_name)
+}
+#if LANG_CXX11
+void iTestForwardMsg::set_remote_node_name(::std::string&& value) {
+  set_has_remote_node_name();
+  remote_node_name_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:pb.iTestForwardMsg.remote_node_name)
+}
+#endif
+void iTestForwardMsg::set_remote_node_name(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  set_has_remote_node_name();
+  remote_node_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:pb.iTestForwardMsg.remote_node_name)
+}
+void iTestForwardMsg::set_remote_node_name(const char* value, size_t size) {
+  set_has_remote_node_name();
+  remote_node_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:pb.iTestForwardMsg.remote_node_name)
+}
+::std::string* iTestForwardMsg::mutable_remote_node_name() {
+  set_has_remote_node_name();
+  // @@protoc_insertion_point(field_mutable:pb.iTestForwardMsg.remote_node_name)
+  return remote_node_name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+::std::string* iTestForwardMsg::release_remote_node_name() {
+  // @@protoc_insertion_point(field_release:pb.iTestForwardMsg.remote_node_name)
+  clear_has_remote_node_name();
+  return remote_node_name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+void iTestForwardMsg::set_allocated_remote_node_name(::std::string* remote_node_name) {
+  if (remote_node_name != NULL) {
+    set_has_remote_node_name();
+  } else {
+    clear_has_remote_node_name();
+  }
+  remote_node_name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), remote_node_name);
+  // @@protoc_insertion_point(field_set_allocated:pb.iTestForwardMsg.remote_node_name)
+}
+
+// optional string remote_service_name = 2;
+bool iTestForwardMsg::has_remote_service_name() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void iTestForwardMsg::set_has_remote_service_name() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void iTestForwardMsg::clear_has_remote_service_name() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void iTestForwardMsg::clear_remote_service_name() {
+  remote_service_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_remote_service_name();
+}
+const ::std::string& iTestForwardMsg::remote_service_name() const {
+  // @@protoc_insertion_point(field_get:pb.iTestForwardMsg.remote_service_name)
+  return remote_service_name_.GetNoArena();
+}
+void iTestForwardMsg::set_remote_service_name(const ::std::string& value) {
+  set_has_remote_service_name();
+  remote_service_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:pb.iTestForwardMsg.remote_service_name)
+}
+#if LANG_CXX11
+void iTestForwardMsg::set_remote_service_name(::std::string&& value) {
+  set_has_remote_service_name();
+  remote_service_name_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:pb.iTestForwardMsg.remote_service_name)
+}
+#endif
+void iTestForwardMsg::set_remote_service_name(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  set_has_remote_service_name();
+  remote_service_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:pb.iTestForwardMsg.remote_service_name)
+}
+void iTestForwardMsg::set_remote_service_name(const char* value, size_t size) {
+  set_has_remote_service_name();
+  remote_service_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:pb.iTestForwardMsg.remote_service_name)
+}
+::std::string* iTestForwardMsg::mutable_remote_service_name() {
+  set_has_remote_service_name();
+  // @@protoc_insertion_point(field_mutable:pb.iTestForwardMsg.remote_service_name)
+  return remote_service_name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+::std::string* iTestForwardMsg::release_remote_service_name() {
+  // @@protoc_insertion_point(field_release:pb.iTestForwardMsg.remote_service_name)
+  clear_has_remote_service_name();
+  return remote_service_name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+void iTestForwardMsg::set_allocated_remote_service_name(::std::string* remote_service_name) {
+  if (remote_service_name != NULL) {
+    set_has_remote_service_name();
+  } else {
+    clear_has_remote_service_name();
+  }
+  remote_service_name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), remote_service_name);
+  // @@protoc_insertion_point(field_set_allocated:pb.iTestForwardMsg.remote_service_name)
+}
+
+// optional bytes netmsg = 3;
+bool iTestForwardMsg::has_netmsg() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+void iTestForwardMsg::set_has_netmsg() {
+  _has_bits_[0] |= 0x00000004u;
+}
+void iTestForwardMsg::clear_has_netmsg() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+void iTestForwardMsg::clear_netmsg() {
+  netmsg_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_netmsg();
+}
+const ::std::string& iTestForwardMsg::netmsg() const {
+  // @@protoc_insertion_point(field_get:pb.iTestForwardMsg.netmsg)
+  return netmsg_.GetNoArena();
+}
+void iTestForwardMsg::set_netmsg(const ::std::string& value) {
+  set_has_netmsg();
+  netmsg_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:pb.iTestForwardMsg.netmsg)
+}
+#if LANG_CXX11
+void iTestForwardMsg::set_netmsg(::std::string&& value) {
+  set_has_netmsg();
+  netmsg_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:pb.iTestForwardMsg.netmsg)
+}
+#endif
+void iTestForwardMsg::set_netmsg(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  set_has_netmsg();
+  netmsg_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:pb.iTestForwardMsg.netmsg)
+}
+void iTestForwardMsg::set_netmsg(const void* value, size_t size) {
+  set_has_netmsg();
+  netmsg_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:pb.iTestForwardMsg.netmsg)
+}
+::std::string* iTestForwardMsg::mutable_netmsg() {
+  set_has_netmsg();
+  // @@protoc_insertion_point(field_mutable:pb.iTestForwardMsg.netmsg)
+  return netmsg_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+::std::string* iTestForwardMsg::release_netmsg() {
+  // @@protoc_insertion_point(field_release:pb.iTestForwardMsg.netmsg)
+  clear_has_netmsg();
+  return netmsg_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+void iTestForwardMsg::set_allocated_netmsg(::std::string* netmsg) {
+  if (netmsg != NULL) {
+    set_has_netmsg();
+  } else {
+    clear_has_netmsg();
+  }
+  netmsg_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), netmsg);
+  // @@protoc_insertion_point(field_set_allocated:pb.iTestForwardMsg.netmsg)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
