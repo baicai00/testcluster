@@ -49,12 +49,7 @@ skynet.start(function ()
             local remote_node_name, remote_service_name, pbstr = protopack.unpack_raw_cluster(netmsg)
             local handle = gtables.get_service_handle(remote_node_name, remote_service_name)
             if handle then
-                beelog_info("TEST session:", session)
-                if session ~= 0 then
-                    cluster.send_with_session(remote_node_name, handle, session, "text", pbstr)
-                else
-                    cluster.send(remote_node_name, handle, "text", pbstr)
-                end
+                cluster.send(remote_node_name, handle, "text", pbstr)
             else
                 beelog_error("handler not found remote_node_name:", remote_node_name, "remote_service_name:", remote_service_name)
             end

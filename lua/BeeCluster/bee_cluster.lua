@@ -76,15 +76,6 @@ function cluster.send(node, address, ...)
     end
 end
 
--- function cluster.send_with_session(node, address, session, ...)
---     local s = sender[node]
---     if not s then
---         -- todo
---     else
---         skynet.send_with_session(sender[node], "lua", session, "push_with_session", address, skynet.pack(...))
---     end
--- end
-
 function cluster.open(port)
     if type(port) == "string" then
         return skynet.call(clusterd, "lua", "listen", port)
