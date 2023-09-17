@@ -5,15 +5,13 @@
 #include <stdint.h>
 #include <string>
 #include <stdio.h>
+#include <arpa/inet.h>
 #include <map>
 #include <boost/function.hpp>
 #include <boost/noncopyable.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/bind.hpp>
 #include "common.h"
-// #include "../pb/inner.pb.h"
-// #include "../pb/kktp1.pb.h"
-// #include "../pb/kktp2.pb.h"
 
 extern "C"
 {
@@ -28,7 +26,25 @@ using namespace google;
 using namespace protobuf;
 using namespace std;
 
-
+/*
+[[
+	【远程节点名长度】  占2字节
+	【远程服务名长度】  占2字节
+	【源节点名长度】    占2字节
+	【源服务名长度】    占2字节
+	【远程节点名】
+	【远程服务名】
+	【源节点名】
+	【源服务名】
+	【sub_type】      占4字节
+	【uid】           占8字节
+	【协议名称长度】    占2字节
+	【协议名称】
+	【roomid】        占4字节
+	【session】       占8字节
+	【数据】
+]]
+*/
 
 inline uint64_t ntoh64(uint64_t *input)
 {
@@ -52,33 +68,41 @@ inline uint64_t hton64(uint64_t *input)
 	return (ntoh64(input));
 }
 
-/*
-wire format
-消息格式: 与客户端通信
-uint32_t dataLen
-uint16_t nameLen
-char typeName[namelen]
-uint32_t roomid
-char protobufData[dataLen - namelen]
-
-消息格式: 与其他服务进行通信
-uint64_t uid
-uint16_t namelen
-char typeName[namelen]
-uint32_t roomid
-char protobufData[len - uid - namelen]
-*/
-
-
-inline uint64_t get_uid_from_stream(const void* data)
+inline uint16_t get_uint16(const char*& data, uint32_t& size)
 {
-	if (data == NULL)
-		return 0;
-	uint64_t uid = *(uint64_t *)data;
-	//LOG(INFO) << "get_uid_from_stream uid = " << uid;
-	uint64_t ntoh64_uid = ntoh64(&uid);
-	//LOG(INFO) << "get_uid_from_stream ntoh64_uid = " << ntoh64_uid;
-	return ntoh64_uid;
+	uint16_t tmp = 0;
+	int len = sizeof(uint16_t);
+	memcpy(&tmp, data, len);
+	data += len;
+	size -= len;
+	return ntohs(tmp);
+}
+
+inline uint32_t get_uint32(const char*& data, uint32_t& size)
+{
+	uint32_t tmp = 0;
+	int len = sizeof(uint32_t);
+	memcpy(&tmp, data, len);
+	data += len;
+	size -= len;
+	return ntohl(tmp);
+}
+
+inline int64_t get_int64(const char*& data, uint32_t& size)
+{
+	uint64_t tmp = 0;
+	int len = sizeof(uint64_t);
+	memcpy(&tmp, data, len);
+	data += len;
+	size -= len;
+	return (int64_t)ntoh64(&tmp);
+}
+
+inline void get_string(const char*& data, uint32_t& size, std::string& strOut, int strSize)
+{
+	strOut.assign(data, strSize);
+	data += strSize;
+	size -= strSize;
 }
 
 //char* to message
@@ -88,54 +112,57 @@ class InPack
 {
 public:
 	InPack();
-	bool reset(const char* data, uint32_t size = 0);
-    bool out_reset(const char* data, uint32_t size);
-	//反序列号带uid的流 用于服务间的rpc或者单
-	bool inner_reset(const char* cdata, uint32_t size = 0);
+	bool inner_reset(const char* cdata, uint32_t size);
 
-	uint64_t uid()
+	inline uint64_t get_session()
+	{
+		return m_session;
+	}
+
+	inline int64_t get_uid()
 	{
 		return m_uid;
+	}
+
+	inline uint32_t get_sub_type()
+	{
+		return m_sub_type;
+	}
+
+	inline string get_pbname()
+	{
+		return m_pbname;
 	}
 
 	//得到pb包
 	Message* create_message();
 
-	void test();
-	std::string m_type_name; // 协议名称
-	int32_t m_roomid; //房间id
+private:
+	// 消息头
+	uint16_t m_remote_service_len;
+	uint16_t m_remote_node_len;
+	uint16_t m_source_service_len;
+	uint16_t m_source_node_len;
+	std::string m_remote_node_name;
+	std::string m_remote_service_name;
+	std::string m_source_node_name;
+	std::string m_source_service_name;
+	uint32_t m_sub_type;
+	int64_t m_uid; // 发送协议的uid
+	uint16_t m_pbname_len;
+	std::string m_pbname;
+	uint32_t m_roomid;
+	uint64_t m_session;
 
-protected:
-	InPack(const char* data, uint32_t size = 0);
-
-	const char* m_data; // buffer
-	uint32_t m_data_len; // buffer lenth
+	// 消息体
 	const char* m_pb_data;
 	uint32_t m_pb_data_len;
 
-	int64_t m_uid; // 发送协议的uid
-
-    //解出m_type_name
-	bool decode_stream(const char* data, uint32_t size);
-
-	const static int kMessageLen = 4; // 消息的总长度 用4个byte来存储消息的总长度 PACK_HEAD
-	const static int kTypeNameLen = 2; // 协议名称的长度 TYPE_HEAD
-	const static int kMaxTypeNameLen = 50; // 协议名称的最大长度 MAX_TYPE_SIZE
-	const static int kRoomidLen = 4; // roomid 
-	const static int kMaxMessageLen = 0x1000000; // 64 * 1024 * 1024 MAX_PACK_SIZE
-};
-
-class InPackCluser : public InPack
-{
-public:
-	bool inner_reset(const char* cdata, uint32_t size = 0);
-	inline int get_session()
-	{
-		return m_session;
-	}
-
 private:
-	uint64_t m_session;
+	const static int kUidLen = 8;
+	const static int kSubTypeLen = 4;
+	const static int kNameLen = 2; // 远程节点与服务名称的长度
+	const static int kSessionLen = 8;
 };
 
 //message to char*
@@ -146,15 +173,14 @@ class OutPack
 {
 public:
 	OutPack() {}
-	OutPack(const Message& msg)
-	{
-		reset(msg);
-	}
+	OutPack(const Message& msg, const std::string& remote_node, const std::string& remote_service, const string& source_node, const string& source_service);
 	bool reset(const Message& msg);
-	void new_outpack(char* &result, uint32_t& size, uint32_t sub_type, const int32_t& roomid); // char* &result:指向char*的引用
-	void new_innerpack_type(char* &result, uint32_t& size, uint64_t uid, uint32_t type, const int32_t& roomid); //用于rpc
-	void new_innerpack(char* &result, uint32_t& size, uint64_t uid, const int32_t& roomid); //用于rpc
-	void test();
+	void new_innerpack_proxy(char* &result, uint32_t& size, uint64_t uid, uint32_t type, int32_t roomid, uint64_t session);
+
+	std::string m_remote_node_name;
+	std::string m_remote_service_name;
+	std::string m_source_node_name;
+	std::string m_source_service_name;
 
 	std::string m_pb_data; // pb数据的字符串
 	std::string m_type_name; // pb协议的名称
@@ -164,31 +190,12 @@ public:
 	const static int kMaxTypeNameLen = 50; // 协议名称的最大长度 MAX_TYPE_SIZE
 	const static int kRoomidLen = 4; // roomid 
 	const static int kMaxMessageLen = 0x1000000; // 64 * 1024 * 1024 MAX_PACK_SIZE
-};
-
-class OutPackProxy : public OutPack
-{
-public:
-	OutPackProxy(const Message& msg, const std::string& remote_node, const std::string& remote_service, const string& source_node, const string& source_service);
-	void new_innerpack_proxy(char* &result, uint32_t& size, uint64_t uid, uint32_t type, int32_t roomid, uint64_t session);
-
-	std::string m_remote_node_name;
-	std::string m_remote_service_name;
-	std::string m_source_node_name;
-	std::string m_source_service_name;
-
 	const static int kUidLen = 8;
 	const static int kSubTypeLen = 4;
 	const static int kNameLen = 2; // 远程节点与服务名称的长度
 	const static int kSessionLen = 8;
 };
 
-// 外部的协议，需要和客户端通信
-void serialize_msg(const Message& msg, char* &result, uint32_t& size, uint32_t type, const int32_t& roomid);
-// 内部的协议，不和客户端通信
-void serialize_imsg_type(const Message& msg, char* &result, uint32_t& size, uint64_t uid, uint32_t type, const int32_t& romid);  //不加包头
-
-void serialize_imsg(const Message& msg, char* &result, uint32_t& size, uint64_t uid, const int32_t& roomid);
 
 // 用于C++服务往CServiceProxy服务发送消息
 void serialize_imsg_proxy(const Message& msg, char*& result, uint32_t& size, uint64_t uid, uint32_t sub_type, int32_t roomid, uint64_t session, const string& remote_node, const string& remote_service, const string& source_node, const string& source_service);

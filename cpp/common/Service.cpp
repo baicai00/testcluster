@@ -48,67 +48,6 @@ Service::~Service()
 {
 }
 
-void Service::service_send(const Message& msg, uint32_t handle)
-{
-	//LOG(INFO) << "service_send m_process_uid = " << m_process_uid;
-	service_fsend(msg, handle, 0, m_process_uid, SUBTYPE_PROTOBUF);
-}
-
-void Service::service_send(const Message& msg, uint32_t handle, int64_t uid)
-{
-	//LOG(INFO) << "service_send uid = " << uid;
-	service_fsend(msg, handle, 0, uid, SUBTYPE_PROTOBUF);
-}
-
-void Service::service_fsend(const Message& msg, uint32_t handle, uint32_t source, int64_t uid, uint32_t type)
-{
-	char* data;
-	uint32_t size;
-	int32_t roomid = get_service_roomid();
-	//serialize_imsg_type(msg, data, size, uid, SUBTYPE_PROTOBUF, roomid);
-	serialize_imsg_type(msg, data, size, uid, type, roomid);
-
-	
-	skynet_send_noleak(m_ctx, source, handle, PTYPE_TEXT | PTYPE_TAG_DONTCOPY, 0, data, size);
-
-	//LOG(INFO) << "service_fsend PACK: " << msg.GetTypeName() << " " << size;
-
-}
-
-void Service::service_system_send(const Message& msg, uint32_t handle)
-{
-	//LOG(INFO) << "service_system_send m_process_uid = " << m_process_uid;
-	service_fsend(msg, handle, 0, m_process_uid, SUBTYPE_SYSTEM);
-}
-
-void Service::service_system_send(const Message& msg, uint32_t handle, int64_t uid)
-{
-	//LOG(INFO) << "service_system_send uid = " << uid;
-	service_fsend(msg, handle, 0, uid, SUBTYPE_SYSTEM);
-}
-
-void Service::service_lua_rsp(const Message& msg)
-{
-	service_lua_rsp(msg, m_process_uid);
-}
-
-void Service::service_lua_rsp(const Message& msg, int64_t uid)
-{
-	service_lua_frsp(msg, uid, m_source, m_session);
-}
-
-
-void Service::service_lua_frsp(const Message& msg, int64_t uid, uint32_t destination, int session)
-{
-	char* data;
-	uint32_t size;
-	int32_t roomid = get_service_roomid();
-	serialize_imsg_type(msg, data, size, uid, SUBTYPE_PROTOBUF, roomid);
-
-	LOG(INFO) << "service_lua_frsp destination= " << destination << ", session =  " << session;
-	skynet_send_noleak(m_ctx, skynet_context_handle(m_ctx), destination, PTYPE_RESPONSE | PTYPE_TAG_DONTCOPY, session, data, size);
-}
-
 
 bool Service::service_init(skynet_context* ctx, const void* parm, int len)
 {
@@ -187,28 +126,28 @@ void Service::service_poll(const char* data, uint32_t size, uint32_t source, int
     {
     case PTYPE_TEXT:
     {
-        uint32_t sub_type;
-        memcpy(&sub_type, data, sizeof(uint32_t));
-        //LOG(INFO) << "sub_type = " << sub_type;
-        sub_type = ntohl(sub_type);
-        //LOG(INFO) << "convert sub_type = " << sub_type;
-
-        data += sizeof(uint32_t);
-        size -= sizeof(uint32_t);
+		InPack pack;
+		if (!pack.inner_reset(data, size))
+		{
+			LOG(ERROR) << "dispatch message pack error";
+			return;
+		}
+        uint32_t sub_type = pack.get_sub_type();
+		LOG(INFO) << "sub_type:" << sub_type << " pbname:" << pack.get_pbname();
         if (sub_type == SUBTYPE_PROTOBUF || sub_type == SUBTYPE_SYSTEM) {//单项的消息传递
             //LOG(INFO) << "SUBTYPE_PROTOBUF";
-            proto(data, size, source); // 转发给之前注册的proto协议
+            proto(pack, source); // 转发给之前注册的proto协议
         }
         else if (sub_type == SUBTYPE_RPC_SERVER) {
-            
-            m_process_uid = get_uid_from_stream(data);
+            m_process_uid = pack.get_uid();
             //LOG(INFO) << "SUBTYPE_RPC_SERVER m_process_uid = " << m_process_uid;
-            rpc_event_server(data, size, source, session);
+            rpc_event_server(pack, source, session);
             m_process_uid = 0;
         }
         else if(sub_type == SUBTYPE_PLAIN_TEXT){
             //LOG(INFO) << "SUBTYPE_PLAIN_TEXT";
-            string stream(data, size);
+			// todo  add by dik
+            /*string stream(data, size);
             string from;
             tie(from, stream) = divide_string(stream, ' ');
             //LOG(INFO) << "SUBTYPE_PLAIN_TEXT from = " << from;
@@ -226,7 +165,7 @@ void Service::service_poll(const char* data, uint32_t size, uint32_t source, int
             }
             //LOG(INFO) << "text_message source = " << source << " session = " << session;
             text_message(data, size, source, session);
-            m_process_uid = 0;
+            m_process_uid = 0;*/
         }
         
         break;
@@ -235,7 +174,8 @@ void Service::service_poll(const char* data, uint32_t size, uint32_t source, int
     case PTYPE_CLIENT:
     {
         //LOG(INFO) << "Service::service_poll PTYPE_CLIENT";
-        message(data, size, source);
+		// todo add by dik
+        // message(data, size, source);
         break;
     }
 
@@ -246,20 +186,17 @@ void Service::service_poll(const char* data, uint32_t size, uint32_t source, int
             timer_timeout(session);
         }
         else {
-            uint32_t sub_type;
-            memcpy(&sub_type, data, sizeof(uint32_t));
-            //LOG(INFO) << "PTYPE_RESPONSE sub_type = " << sub_type;
-            sub_type = ntohl(sub_type);
-            //LOG(INFO) << "PTYPE_RESPONSE convert sub_type = " << sub_type;
-
-            data += sizeof(uint32_t);
-            size -= sizeof(uint32_t);
-
+            InPack pack;
+			if (!pack.inner_reset(data, size))
+			{
+				LOG(ERROR) << "dispatch message pack error";
+				return;
+			}
+			uint32_t sub_type = pack.get_sub_type();
             if (sub_type == SUBTYPE_RPC_CLIENT) {
-                m_process_uid = get_uid_from_stream(data);
+                m_process_uid = pack.get_uid();
                 //LOG(INFO) << "SUBTYPE_RPC_CLIENT m_process_uid = " << m_process_uid;
-                // rpc_event_client(data, size, source, session);
-                rpc_event_client_proxy(data, size);
+                rpc_event_client(pack);
                 m_process_uid = 0;
             }
             
@@ -278,13 +215,13 @@ void Service::service_poll(const char* data, uint32_t size, uint32_t source, int
 
 
 
-void Service::proto(const char* data, uint32_t size, uint32_t source)
+void Service::proto(InPack& pack, uint32_t source)
 {
-    m_process_uid = get_uid_from_stream(data);
+    m_process_uid = pack.get_uid();
 
     //LOG(INFO) << "proto m_process_uid = " << m_process_uid;
 
-    DispatcherStatus status = m_dsp.dispatch_message(data, size, source);
+    DispatcherStatus status = m_dsp.dispatch_message(pack, source);
     if (status == DISPATCHER_PACK_ERROR || status == DISPATCHER_PB_ERROR)
     {
         LOG(ERROR) << "inner proto to service error";
@@ -292,9 +229,7 @@ void Service::proto(const char* data, uint32_t size, uint32_t source)
 
     if (status == DISPATCHER_CALLBACK_ERROR)
     {
-        InPack pack;
-        pack.inner_reset(data, size);
-        LOG(WARNING) << "dispatch error. service name:" << m_service_name << " pb name:" << pack.m_type_name;
+        LOG(WARNING) << "dispatch error. service name:" << m_service_name << " pb name:" << pack.get_pbname();
     }
     m_process_uid = 0;
 }
@@ -338,62 +273,3 @@ uint32_t Service::new_skynet_service(const string& name, const string& param)
 	}
 	return handle;
 }
-
-
-// void Service::proto_service_name_brc(Message* data, uint32_t handle)
-// {
-// 	// Service接受iNameList的消息
-
-// 	// name_got_event
-// 	// sevice_start
-// 	// broadcast child service
-
-// 	pb::iNameListBRC* msg = dynamic_cast<pb::iNameListBRC*>(data);
-// 	LOG(INFO) << "pb::iNameListBRC* msg = " << msg->ShortDebugString();
-//     std::map<std::string, uint32_t> new_up_names;
-//     std::string up_name = msg->up_name();
-// 	for (int i = 0; i < msg->list_size(); ++i)
-// 	{
-// 		const string& name = msg->list(i).name();
-// 		LOG(INFO) << "name = " << name;
-// 		LOG(INFO) << "address = " << msg->list(i).address();
-// 		std::map<std::string, uint32_t>::iterator it = m_named_service.find(name);
-// 		if (it != m_named_service.end())
-// 		{
-//             uint32_t new_handle = msg->list(i).address();
-//             if (0 == it->second || it->second != new_handle || up_name == name)
-//             {
-//                 new_up_names[name] = new_handle;
-//             }
-// 			it->second = msg->list(i).address();
-// 			LOG(INFO) << "proto_service_name_brc name = " << name;
-// 			//name_got_event(name);
-// 		}
-// 		else
-// 		{
-// 			m_named_service[name] = msg->list(i).address();
-// 		}
-// 	}
-
-//     for (auto& item : new_up_names)
-//     {
-//         std::string name = item.first;
-//         LOG(INFO) << "proto_service_name_brc new up name = " << name;
-//         name_got_event(name);
-//     }
-
-// 	if (is_depend_ok() && !m_service_started)
-// 	{
-// 		// 开启服务
-// 		m_service_started = true;
-// 		LOG(INFO) << "service [" << m_service_name << "] start.";
-// 		service_start();
-// 	}
-
-// 	//广播给子服务
-// 	std::set<uint32_t>::iterator it = m_children.begin();
-// 	for (; it != m_children.end(); ++it)
-// 	{
-// 		service_send(*msg, *it);
-// 	}
-// }

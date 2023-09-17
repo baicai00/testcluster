@@ -52,37 +52,6 @@ class ServiceContext final
         }
 
     public:
-        int skynet_wrap_socket_send(struct skynet_context *ctx, int id, const Message& msg, const int32_t& roomid, int socket_type, uint32_t gate, bool compress)
-        {
-            char* data;
-            uint32_t size;
-
-            serialize_msg(msg, data, size, 0, roomid);
-
-            // 发送给已经登录的用户的agent_fd, 使用socket的接口
-            if (2 == socket_type)
-            {
-                return skynet_send_noleak(ctx, 0, gate, PTYPE_CLIENT | PTYPE_TAG_DONTCOPY, id, data, size);
-            }
-
-            return skynet_socket_send(ctx, id, data, size);
-        }
-
-        int skynet_wrap_socket_send(struct skynet_context *ctx, int id, void* msg, uint32_t size, const std::string& pb_name, int socket_type, uint32_t gate, bool compress)
-        {
-            // wire protocol:
-            // datalen + namelen + name + roomid + pbdata
-            //void* data = skynet_malloc(size);
-            //memcpy(data, msg, size);
-            char* data = (char*)skynet_malloc(size);
-            memcpy(data, msg, size);
-            if (2 == socket_type)
-            {
-                return skynet_send_noleak(ctx, 0, gate, PTYPE_CLIENT | PTYPE_TAG_DONTCOPY, id, data, size);
-            }
-            return skynet_socket_send(ctx, id, data, size);
-        }
-    public:
         void set_profile(bool profile)
         {
         }

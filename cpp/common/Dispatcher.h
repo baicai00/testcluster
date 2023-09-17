@@ -131,19 +131,19 @@ public:
 		m_callback[name] = func;
 	}
 
-	DispatcherStatus dispatch_message(const char* data, uint32_t size, T user)
+	DispatcherStatus dispatch_message(InPack& pack, T user)
 	{
 		// 分发内部协议
-		return dispatch_(data, size, user, true);
+		return dispatch_(pack, user, true);
 	}
 
 	//分发客户端消息
-	DispatcherStatus dispatch_client_message(const char* data, uint32_t size, T user)
-	{
-		// 分发外部协议
-		LOG(INFO) << "dispatch client message";
-		return dispatch_(data, size, user, false);
-	}
+	// DispatcherStatus dispatch_client_message(const char* data, uint32_t size, T user)
+	// {
+	// 	// 分发外部协议
+	// 	LOG(INFO) << "dispatch client message";
+	// 	return dispatch_(data, size, user, false);
+	// }
 
 	CallbackMap m_callback;
 
@@ -153,42 +153,17 @@ public:
 	}
 
 private:
-	DispatcherStatus dispatch_(const char* data, uint32_t size, T user, bool inner)
+	DispatcherStatus dispatch_(InPack& pack, T user, bool inner)
 	{
-		InPack pack;
-		bool b = false;
-		if (inner)
-		{
-			// 解析内部协议 uid
-			//LOG(INFO) << "parse inner message";
-			b = pack.inner_reset(data, size);
-		}
-		else
-		{
-			// 解析外部协议 不带uid
-			LOG(INFO) << "parse client message";
-			b = pack.reset(data, size);
-
-			//ProtobufCodec codec(onMessage);
-			//codec.onMessage(data, size);
-
-		}
-		if (!b)
-		{
-			log_error("dispatch message pack error");
-			return DISPATCHER_PACK_ERROR;
-		}
-//		LOG(INFO) << "dispatch m_type_name = " << pack.m_type_name;
-
-
-		typename CallbackMap::iterator it = m_callback.find(pack.m_type_name);
+		// inner未处理 add by dik
+		typename CallbackMap::iterator it = m_callback.find(pack.get_pbname());
 		if (it != m_callback.end())
 		{
 
 			Message* msg = pack.create_message();
 			if (msg == NULL)
 			{
-				log_error("dispatch message pb error type:%s", pack.m_type_name.c_str());
+				log_error("dispatch message pb error type:%s", pack.get_pbname().c_str());
 				return DISPATCHER_PB_ERROR;
 			}
 
@@ -204,7 +179,6 @@ private:
 			delete msg;
 			return DISPATCHER_SUCCUSS;
 		}
-//		LOG(WARNING) << "proto type no find. type:" << pack.m_type_name;
 		return DISPATCHER_CALLBACK_ERROR;
 	}
 

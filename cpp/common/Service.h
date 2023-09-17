@@ -53,38 +53,10 @@ public:
 	virtual ~Service();
 	bool service_init(skynet_context* ctx, const void* parm, int len);
 
-	//带上uid的话，对方会收到一个uid，master slave模式的service，会根据这个uid hash转发
-	void service_send(const Message& msg, uint32_t handle, int64_t uid);
-
-	void service_send(const Message& msg, uint32_t handle);
-
-	//可以指定源
-	void service_fsend(const Message& msg, uint32_t handle, uint32_t source, int64_t uid, uint32_t type);
-
-    //带上uid的话，对方会收到一个uid，master slave模式的service，会根据这个uid hash转发
-    void service_system_send(const Message& msg, uint32_t handle, int64_t uid);
-    void service_system_send(const Message& msg, uint32_t handle);
-
-	void service_lua_rsp(const Message& msg);
-	void service_lua_rsp(const Message& msg, int64_t uid);
-	void service_lua_frsp(const Message& msg, int64_t uid, uint32_t destination, int session);
-
-	inline int rpc_call(int32_t dest, const google::protobuf::Message& msg, const RPCCallBack& func, int64_t uid)
-	{
-		LOG(INFO) << "rpc_call uid = " << uid;
-		return RpcClient::rpc_call(dest, msg, func, uid);
-	}
-
-	inline int rpc_call(int32_t dest, const google::protobuf::Message& msg, const RPCCallBack& func)
-	{
-		LOG(INFO) << "rpc_call m_process_uid = " << m_process_uid;
-		return RpcClient::rpc_call(dest, msg, func, m_process_uid);
-	}
-
 	virtual void service_poll(const char* data, uint32_t size, uint32_t source, int session, int type);
 
 	//内部消息回调
-	void proto(const char* data, uint32_t size, uint32_t source);
+	void proto(InPack& pack, uint32_t source);
 
 	virtual void text_message(const void * msg, size_t sz, uint32_t source, int session){}
 

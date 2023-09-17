@@ -55,7 +55,7 @@ void Shop::text_message(const void * msg, size_t sz, uint32_t source, int sessio
 void Shop::proto_test_ping_shop(Message* data, uint32_t source)
 {
     pb::iTestPingShopREQ* msg = dynamic_cast<pb::iTestPingShopREQ*>(data);
-    // LOG(INFO) << "proto_test_ping_shop msg:" << msg->ShortDebugString();
+    LOG(INFO) << "proto_test_ping_shop msg:" << msg->ShortDebugString();
 
     std::string remote_node = "activity_master_5";
     std::string remote_service = "activity_master";
@@ -68,7 +68,7 @@ void Shop::proto_test_ping_shop(Message* data, uint32_t source)
     // test2,rpc_all
     pb::iTestPingActivityREQ rpc_req;
     rpc_req.set_ping_msg("Hello activity, I am shop, I use rpc call");
-    rpc_call_proxy(m_cservice_proxy, rpc_req, [this] (Message* data) mutable {
+    rpc_call(m_cservice_proxy, rpc_req, [this] (Message* data) mutable {
         pb::iTestPingActivityRSP * rsp = dynamic_cast<pb::iTestPingActivityRSP*>(data);
         LOG(INFO) << "iTestPingActivityRSP:" << rsp->ShortDebugString();
     }, m_process_uid, remote_node, remote_service, "shop_master_4", "shop_master");

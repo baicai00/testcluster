@@ -1,7 +1,7 @@
 require "skynet.manager"
 local skynet = require "skynet"
 local cluster = require "bee_cluster"
-local protopack = require "protopack"
+local protopack = require "protopack_cluster"
 local protobuf = require "protobuf"
 
 local gtables = {}

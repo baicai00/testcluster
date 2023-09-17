@@ -99,7 +99,7 @@ skynet.start(function ()
             if rsp_pb_name and rsp and temp_ret.session and temp_ret.session > 0 then
                 local handle = gtables.get_service_handle(source_node_name, source_service_name)
                 if handle then
-                    local rpc_data = protopack.pack_raw(protopack.SUBTYPE_RPC_CLIENT, uid, "pb." .. rsp_pb_name, rsp, protobuf, roomid, temp_ret.session)
+                    local rpc_data = protopack.pack_raw(protopack.SUBTYPE_RPC_CLIENT, uid, "pb." .. rsp_pb_name, rsp, protobuf, roomid, {session = temp_ret.session})
                     cluster.send(source_node_name, handle, "rpc_response", rpc_data)
                 else
                     beelog_error("ERROR activity query handle failed. source_node_name:", source_node_name, "source_service_name:", source_service_name)

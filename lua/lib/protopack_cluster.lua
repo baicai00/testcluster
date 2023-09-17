@@ -102,8 +102,8 @@ function M.unpack_raw_remote_name(str)
 end
 
 -- 打包内部protobuf消息 发送给c++服务
-function M.pack_raw(type, uid, name, msg, protobuf, roomid, session)
-    -- skynet.error("TEST pack_raw session:", session)
+function M.pack_raw_response(type, uid, name, msg, protobuf, roomid, session)
+    -- skynet.error("TEST pack_raw_response session:", session)
     local pbstr = protobuf.encode(name, msg)
     local pblen = string.len(pbstr)
     local namelen = #name
@@ -111,6 +111,48 @@ function M.pack_raw(type, uid, name, msg, protobuf, roomid, session)
     local head_session = session or 0
     local fmt = string.format(">I L L H c%d I c%d", namelen, pblen)
     local str = string.pack(fmt, type, uid, head_session, namelen, name, head_roomid, pbstr)
+    return str
+end
+
+-- 打包内部protobuf消息 发送给c++服务
+function M.pack_raw(type, uid, name, msg, protobuf, roomid, extra_info)
+    skynet.error("TEST pack_raw type:", type)
+    --[[
+        【远程节点名长度】  占2字节
+        【远程服务名长度】  占2字节
+        【源节点名长度】    占2字节
+        【源服务名长度】    占2字节
+        【远程节点名】
+        【远程服务名】
+        【源节点名】
+        【源服务名】
+        【sub_type】      占4字节
+        【uid】           占8字节
+        【协议名称长度】    占2字节
+        【协议名称】
+        【roomid】        占4字节
+        【session】       占8字节
+        【数据】
+    ]]
+    if not extra_info then extra_info = {} end
+    local pbstr = protobuf.encode(name, msg)
+    local pblen = string.len(pbstr)
+    local namelen = #name
+    local head_roomid = roomid or 0
+    local remote_node_name = extra_info.remote_node_name or ""
+    local remote_service_name = extra_info.remote_service_name or ""
+    local source_node_name = extra_info.source_node_name or ""
+    local source_service_name = extra_info.source_service_name or ""
+    local remote_node_len = string.len(remote_node_name)
+    local remote_service_len = string.len(remote_service_name)
+    local source_node_len = string.len(source_node_name)
+    local source_service_len = string.len(source_service_name)
+    local session = extra_info.session or 0
+
+    local fmt = string.format(">H H H H c%d c%d c%d c%d I L H c%d I L c%d", remote_node_len, remote_service_len, source_node_len, source_service_len, namelen, pblen)
+    local str = string.pack(fmt, remote_node_len,remote_service_len,source_node_len,source_service_len,remote_node_name,remote_service_name,source_node_name,source_service_name, type, uid, namelen, name, head_roomid,session, pbstr)
+    -- local fmt = string.format(">H H H H I L H c%d I L c%d", namelen, pblen)
+    -- local str = string.pack(fmt, remote_node_len,remote_service_len,source_node_len,source_service_len, type, uid, namelen, name, head_roomid,session, pbstr)
     return str
 end
 
