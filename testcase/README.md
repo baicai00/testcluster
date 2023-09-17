@@ -93,11 +93,21 @@ end)
   具体实现为Pack.h的OutPackProxy类与serialize_imsg_proxy函数
 2.CServiceProxy服务需要将C++服务发过来的消息进行解码，从消息中解出：远程节点名、远程服务名、原始消息；并且将原始消息发到远程节点
 ```
-* c++服务往lua服务发送pb协议,使用rpc_call方式(todo)
+* c++服务往lua服务发送pb协议,使用rpc_call方式
 ```sh
-在RPC.cpp中实现rpc_call时，应用层会生成一个session，然后使用skynet_send使用该session将该消息发到目的地；
-现在的问题是：如果我们在应用层生成的session，在socketchannel库中找不到该session,会导致错误"socket: unknown session : 32"
+要实现rpc_call,需要解决以下两个问题：
+1.C++中，在实现rpc_call时会生成一个session，通过session定位回复消息；如果使用skynet_send将这个session该消息发到目的地；
+  会出现在socketchannel库中找不到该session,导致错误"socket: unknown session : 32"
+2.在dispatcher.lua中会检查session是否为零，如果不为零，且消息处理函数有返回值，则会使用skynet.redirect将回复消息返回到源地址；
+  这个实现在cluster模式中行不通，原因是cluster是通过socketchannel进行通信的，使用skynet.redirect发出去的消息无法被解析
+
+解决方案：
+针对问题一：我们将应用程序生成的session打包到消息中，并发到目的地，目的进程通过这个session判断是否要回复
+针对问题二：我们把【源节点名称】【源服务名称】打包到消息中，在dispatcher.lua中，根据源节点名称、源服务名称发送回复消息
 ```
+
+* c++服务往c++服务发送pb协议,使用send方式(todo)
+* c++服务往以c++服务发送pb协议,使用rpc_call方式(todo)
 
 * 配置更新 （todo）
 ```sh
