@@ -182,7 +182,40 @@ void InPack::test()
 	log_debug("m_data_len:%d m_pb_data_len:%d m_type_name:%s roomid:%d", m_data_len, m_pb_data_len, m_type_name.c_str(), m_roomid);
 }
 
+bool InPackCluser::inner_reset(const char* cdata, uint32_t size)
+{
+	//LOG(INFO) << "InPack inner_reset size = " << size;
+	char* data = const_cast<char*>(cdata);
+	m_data = data;
+	if (size == 0)
+	{
+		m_data_len = strlen(data);
+		size = m_data_len;
+	}
+	else
+		m_data_len = size;
 
+	//解出uid
+	uint64_t uid = *(uint64_t*)data;
+
+	//LOG(INFO) << "InPack::inner_reset uid = " << uid;
+
+	m_uid = ntoh64(&uid);
+	//LOG(INFO) << "InPack::inner_reset ntoh64(&uid) = " << m_uid;
+
+	data += sizeof(m_uid);
+	size -= sizeof(m_uid);
+
+	// 解出session
+	uint64_t session = *(uint64_t*)data;
+	m_session = ntoh64(&session);
+
+	data += sizeof(m_session);
+	size -= sizeof(m_session);
+	LOG(INFO) << "inner_reset uid:" << m_uid << " session:" << m_session;
+
+	return decode_stream(data, size);
+}
 
 bool OutPack::reset(const Message& msg)
 {
@@ -338,22 +371,26 @@ void OutPack::test()
 	log_debug("test outputpack:  typelen:%d datalen:%d typename:%s", (int)m_type_name.size(), (int)m_pb_data.size(), m_type_name.c_str());
 }
 
-OutPackProxy::OutPackProxy(const Message& msg, const std::string& remote_node, const std::string& remote_service)
+OutPackProxy::OutPackProxy(const Message& msg, const std::string& remote_node, const std::string& remote_service, const string& source_node, const string& source_service)
 	: OutPack(msg)
 {
 	m_remote_node_name = remote_node;
 	m_remote_service_name = remote_service;
+	m_source_node_name = source_node;
+	m_source_service_name = source_service;
 }
 
-void OutPackProxy::new_innerpack_proxy(char* &result, uint32_t& size, uint64_t uid, uint32_t type, int32_t roomid)
+void OutPackProxy::new_innerpack_proxy(char* &result, uint32_t& size, uint64_t uid, uint32_t type, int32_t roomid, uint64_t session)
 {
-	// 【远程节点名长度】【远程服务名长度】【远程节点名】【远程服务名】【sub_type】【uid】【协议名称长度】【协议名称】【roomid】【数据】
-
+	// 【远程节点名长度】【远程服务名长度】【源节点名长度】【源服务名长度】【远程节点名】【远程服务名】【源节点名】【源服务名】【sub_type】【uid】【协议名称长度】【协议名称】【roomid】【session】【数据】
+	// LOG(INFO) << "new_innerpack_proxy uid:" << uid << " type:" << type << " roomid:" << roomid << " session:" << session;
 	int remote_node_len = m_remote_node_name.size();
 	int remote_service_len = m_remote_service_name.size();
+	int source_node_len = m_source_node_name.size();
+	int source_service_len = m_source_service_name.size();
 	int pbname_len = m_type_name.size();
 	int pbdata_len = m_pb_data.size();
-	int data_len = kNameLen + kNameLen + remote_node_len + remote_service_len + kSubTypeLen + kUidLen + kRoomidLen + kTypeNameLen + pbname_len + pbdata_len;
+	int data_len = kNameLen + kNameLen + kNameLen + kNameLen + remote_node_len + remote_service_len + source_node_len + source_service_len + kSubTypeLen + kUidLen + kTypeNameLen + pbname_len + kRoomidLen + kSessionLen + pbdata_len;
 
 	char* data = (char*)skynet_malloc(data_len);
 	result = data;
@@ -371,40 +408,63 @@ void OutPackProxy::new_innerpack_proxy(char* &result, uint32_t& size, uint64_t u
 	uint16_t service_len = htons(remote_service_len);
 	memcpy(tmp_data, &service_len, kNameLen);
 
-	// remote node name
+	// source node name len
 	tmp_data = data + kNameLen + kNameLen;
+	uint16_t htons_source_node_len = htons(source_node_len);
+	memcpy(tmp_data, &htons_source_node_len, kNameLen);
+
+	// source service name len
+	tmp_data = data + kNameLen + kNameLen + kNameLen;
+	uint16_t htons_source_service_len = htons(source_service_len);
+	memcpy(tmp_data, &htons_source_service_len, kNameLen);
+
+	// remote node name
+	tmp_data = data + kNameLen + kNameLen + kNameLen + kNameLen;
 	memcpy(tmp_data, m_remote_node_name.c_str(), remote_node_len);
 
 	// remote service name
-	tmp_data = data + kNameLen + kNameLen + remote_node_len;
+	tmp_data = data + kNameLen + kNameLen + kNameLen + kNameLen + remote_node_len;
 	memcpy(tmp_data, m_remote_service_name.c_str(), remote_service_len);
 
+	// source node name
+	tmp_data = data + kNameLen + kNameLen + kNameLen + kNameLen + remote_node_len + remote_service_len;
+	memcpy(tmp_data, m_source_node_name.c_str(), source_node_len);
+
+	// source service name
+	tmp_data = data + kNameLen + kNameLen + kNameLen + kNameLen + remote_node_len + remote_service_len + source_node_len;
+	memcpy(tmp_data, m_source_service_name.c_str(), source_service_len);
+
 	// sub_type
-	tmp_data = data + kNameLen + kNameLen + remote_node_len + remote_service_len;
+	tmp_data = data + kNameLen + kNameLen + kNameLen + kNameLen + remote_node_len + remote_service_len + source_node_len + source_service_len;
 	uint32_t htonl_sub_type = htonl(type); 
 	memcpy(tmp_data, &htonl_sub_type, sizeof(uint32_t));
 
 	// uid
-	tmp_data = data + kNameLen + kNameLen + remote_node_len + remote_service_len + kSubTypeLen;
+	tmp_data = data + kNameLen + kNameLen + kNameLen + kNameLen + remote_node_len + remote_service_len + source_node_len + source_service_len + kSubTypeLen;
 	uint64_t hton64_uid = hton64(&uid);
 	memcpy(tmp_data, &hton64_uid, kUidLen);
 
 	// namelen
-	tmp_data = data + kNameLen + kNameLen + remote_node_len + remote_service_len + kSubTypeLen + kUidLen;
+	tmp_data = data + kNameLen + kNameLen + kNameLen + kNameLen + remote_node_len + remote_service_len + source_node_len + source_service_len + kSubTypeLen + kUidLen;
 	uint16_t htonsTypeName = htons(pbname_len);
 	memcpy(tmp_data, &htonsTypeName, kTypeNameLen);
 
 	// pbname
-	tmp_data = data + kNameLen + kNameLen + remote_node_len + remote_service_len + kSubTypeLen + kUidLen + kTypeNameLen;
+	tmp_data = data + kNameLen + kNameLen + kNameLen + kNameLen + remote_node_len + remote_service_len + source_node_len + source_service_len + kSubTypeLen + kUidLen + kTypeNameLen;
 	memcpy(tmp_data, m_type_name.c_str(), pbname_len);
 
 	// roomid
-	tmp_data = data + kNameLen + kNameLen + remote_node_len + remote_service_len + kSubTypeLen + kUidLen + kTypeNameLen + pbname_len;
+	tmp_data = data + kNameLen + kNameLen + kNameLen + kNameLen + remote_node_len + remote_service_len + source_node_len + source_service_len + kSubTypeLen + kUidLen + kTypeNameLen + pbname_len;
 	int32_t head_roomid = htonl(roomid);
 	memcpy(tmp_data, &head_roomid, kRoomidLen);
 
+	// session
+	tmp_data = data + kNameLen + kNameLen + kNameLen + kNameLen + remote_node_len + remote_service_len + source_node_len + source_service_len + kSubTypeLen + kUidLen + kTypeNameLen + pbname_len + kRoomidLen;
+	uint64_t hton64_session = hton64(&session);
+	memcpy(tmp_data, &hton64_session, kSessionLen);
+
 	// pbdata
-	tmp_data = data + kNameLen + kNameLen + remote_node_len + remote_service_len + kSubTypeLen + kUidLen + kTypeNameLen + pbname_len + kRoomidLen;
+	tmp_data = data + kNameLen + kNameLen + kNameLen + kNameLen + remote_node_len + remote_service_len + source_node_len + source_service_len + kSubTypeLen + kUidLen + kTypeNameLen + pbname_len + kRoomidLen + kSessionLen;
 	memcpy(tmp_data, m_pb_data.c_str(), pbdata_len);
 }
 
@@ -485,10 +545,10 @@ void serialize_imsg_type(const Message& msg, char* &result, uint32_t& size, uint
 	opack.new_innerpack_type(result, size, uid, sub_type, roomid);
 }
 
-void serialize_imsg_proxy(const Message& msg, char*& result, uint32_t& size, uint64_t uid, uint32_t sub_type, int32_t roomid, const string& remote_node, const string& remote_service)
+void serialize_imsg_proxy(const Message& msg, char*& result, uint32_t& size, uint64_t uid, uint32_t sub_type, int32_t roomid, uint64_t session, const string& remote_node, const string& remote_service, const string& source_node, const string& source_service)
 {
-	OutPackProxy opack(msg, remote_node, remote_service);
-	opack.new_innerpack_proxy(result, size, uid, sub_type, roomid);
+	OutPackProxy opack(msg, remote_node, remote_service, source_node, source_service);
+	opack.new_innerpack_proxy(result, size, uid, sub_type, roomid, session);
 }
 
 

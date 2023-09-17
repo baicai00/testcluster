@@ -1,7 +1,7 @@
 require "skynet.manager"
 local skynet = require "skynet"
 local cluster = require "bee_cluster"
-local protopack = require "protopack"
+local protopack = require "protopack_cluster"
 local protobuf = require "protobuf"
 
 local gtables = {}
@@ -37,6 +37,17 @@ function gtables.get_service_handle(node_name, service_name)
     end
 end
 
+-- function gtables.test_ping_activity()
+--     local handle = gtables.get_service_handle("activity_master_5", "activity_master")
+--     if not handle then
+--         return
+--     end
+
+--     local uid = 6
+--     local ret = cluster.call("activity_master_5", handle, "lua", "test_ping_activity", uid, "hello activity_master, I am cserverproxy", os.time())
+--     beelog_info(ret)
+-- end
+
 skynet.init(function ()
     -- local lua_root = skynet.getenv("lua_root") .. "protocol/pb/"
     -- local pb_names = gtables.get_pb_names()
@@ -46,13 +57,20 @@ end)
 skynet.start(function ()
     skynet.dispatch("text", function (session, source, netmsg)
         if netmsg ~= nil then
-            local remote_node_name, remote_service_name, pbstr = protopack.unpack_raw_cluster(netmsg)
+            local remote_node_name, remote_service_name = protopack.unpack_raw_remote_name(netmsg)
             local handle = gtables.get_service_handle(remote_node_name, remote_service_name)
             if handle then
-                cluster.send(remote_node_name, handle, "text", pbstr)
+                cluster.send(remote_node_name, handle, "text", netmsg)
             else
                 beelog_error("handler not found remote_node_name:", remote_node_name, "remote_service_name:", remote_service_name)
             end
         end
     end)
+
+    -- skynet.timeout(300, function ()
+    --     while true do
+    --         gtables.test_ping_activity()
+    --         skynet.sleep(100)
+    --     end
+    -- end)
 end)

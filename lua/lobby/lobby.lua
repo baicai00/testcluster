@@ -142,7 +142,7 @@ skynet.start(function()
 
     skynet.sleep(300)
 
-    while true do
+    -- while true do
         -- gtables.test_ping_lpersistence()
 
         -- gtables.test_ping_mysqlpool()
@@ -152,6 +152,6 @@ skynet.start(function()
 
         gtables.test_ping_shop()
 
-        skynet.sleep(100)
-    end
+    --     skynet.sleep(100)
+    -- end
 end)

@@ -75,18 +75,6 @@ function M.unpack_raw(str, protobuf)
 
 end
 
-function M.unpack_raw_cluster(str)
-	-- remote_node_len,remote_service_len,remote_node_name,remote_service_name,pbdata
-	local remote_node_len = string.unpack("> H", str)
-	local remote_service_len = string.unpack("> H", str, 3)
-	-- local pbstr_len = string.unpack("> L", str, 5)
-	local pbstr_len = string.len(str) - 2 - 2 - remote_node_len - remote_service_len
-	local fmt = string.format("> c%d c%d c%d", remote_node_len, remote_service_len, pbstr_len)
-	-- skynet.error("TTT unpack_raw_cluster remote_node_len:", remote_node_len, "remote_service_len:", remote_service_len, "pbstr_len:",pbstr_len, "len:", string.len(str))
-	local remote_node_name, remote_service_name, pbstr = string.unpack(fmt, str, 5)
-	return remote_node_name, remote_service_name, pbstr
-end
-
 -- 解包客户端通过agent发来的消息
 function M.unpack_agent(str,  protobuf)
 	-- uid namelen name data

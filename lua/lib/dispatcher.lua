@@ -1,4 +1,5 @@
 local skynet = require "skynet"
+local cluster = require "bee_cluster"
 local protopack = require "protopack"
 local ltime = require "ltime"
 

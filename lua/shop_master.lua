@@ -12,6 +12,13 @@ skynet.register_protocol {
     unpack = skynet.tostring,
 }
 
+skynet.register_protocol {
+    name = "rpc_response",
+    id = skynet.PTYPE_RESPONSE,
+    pack = function(...) return ... end,
+    unpack = skynet.tostring,
+}
+
 function gtables.register_pb(root, names)
     for _, name in ipairs(names) do
         local f = assert(io.open(root .. name, "rb"))
@@ -48,6 +55,7 @@ skynet.start(function ()
 
     local sendline = string.format("%d", proxy)
     local shop = assert(skynet.launch("shop", sendline))
+    skynet.name(".shop", shop)
     -- cluster.register("shop", shop)
 
     skynet.dispatch("lua", function (session , source, sub_type, ...)
@@ -63,10 +71,17 @@ skynet.start(function ()
             local args = table.pack(...)
             local netmsg = args[1]
             if netmsg ~= nil then
-                beelog_info("TEST recv session:", session)
                 skynet.redirect(shop, source, "text", session, netmsg)
             else
-                beelog_error("netmsg is nil")
+                beelog_error("text netmsg is nil")
+            end
+        elseif sub_type == "rpc_response" then
+            local args = table.pack(...)
+            local netmsg = args[1]
+            if netmsg ~= nil then
+                skynet.redirect(shop, source, "rpc_response", 0, netmsg)
+            else
+                beelog_error("rpc_response netmsg is nil")
             end
         end
     end)

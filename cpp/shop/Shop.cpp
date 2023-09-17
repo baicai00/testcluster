@@ -61,9 +61,9 @@ void Shop::proto_test_ping_shop(Message* data, uint32_t source)
     std::string remote_service = "activity_master";
 
     // test1,无返回消息
-    // pb::iTestPingActivityMsg req;
-    // req.set_ping_msg("Hello activity, I am shop");
-    // service_send_cluster(req, remote_node, remote_service);
+    pb::iTestPingActivityMsg req;
+    req.set_ping_msg("Hello activity, I am shop, I use send");
+    service_send_cluster(req, remote_node, remote_service);
 
     // test2,rpc_all
     pb::iTestPingActivityREQ rpc_req;
@@ -71,7 +71,7 @@ void Shop::proto_test_ping_shop(Message* data, uint32_t source)
     rpc_call_proxy(m_cservice_proxy, rpc_req, [this] (Message* data) mutable {
         pb::iTestPingActivityRSP * rsp = dynamic_cast<pb::iTestPingActivityRSP*>(data);
         LOG(INFO) << "iTestPingActivityRSP:" << rsp->ShortDebugString();
-    }, m_process_uid, remote_node, remote_service);
+    }, m_process_uid, remote_node, remote_service, "shop_master_4", "shop_master");
 }
 
 void Shop::service_send_cluster(const Message& msg, const string& remote_node, const string& remote_service)
@@ -82,6 +82,7 @@ void Shop::service_send_cluster(const Message& msg, const string& remote_node, c
     uint32_t source = 0;
     int64_t uid = m_process_uid;
     uint32_t type = SUBTYPE_PROTOBUF;
-    serialize_imsg_proxy(msg, data, size, uid, type, roomid, remote_node, remote_service);
+    int32_t session = 0;
+    serialize_imsg_proxy(msg, data, size, uid, type, roomid, session, remote_node, remote_service, "shop_master_4", "shop_master");
     skynet_send_noleak(m_ctx, source, m_cservice_proxy, PTYPE_TEXT | PTYPE_TAG_DONTCOPY, 0, data, size);
 }

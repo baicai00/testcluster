@@ -81,7 +81,6 @@ inline uint64_t get_uid_from_stream(const void* data)
 	return ntoh64_uid;
 }
 
-
 //char* to message
 // 解码器
 // 把从网络端接受的数据反序列化成protobuf消息
@@ -106,7 +105,7 @@ public:
 	std::string m_type_name; // 协议名称
 	int32_t m_roomid; //房间id
 
-private:
+protected:
 	InPack(const char* data, uint32_t size = 0);
 
 	const char* m_data; // buffer
@@ -124,6 +123,19 @@ private:
 	const static int kMaxTypeNameLen = 50; // 协议名称的最大长度 MAX_TYPE_SIZE
 	const static int kRoomidLen = 4; // roomid 
 	const static int kMaxMessageLen = 0x1000000; // 64 * 1024 * 1024 MAX_PACK_SIZE
+};
+
+class InPackCluser : public InPack
+{
+public:
+	bool inner_reset(const char* cdata, uint32_t size = 0);
+	inline int get_session()
+	{
+		return m_session;
+	}
+
+private:
+	uint64_t m_session;
 };
 
 //message to char*
@@ -157,15 +169,18 @@ public:
 class OutPackProxy : public OutPack
 {
 public:
-	OutPackProxy(const Message& msg, const std::string& remote_node, const std::string& remote_service);
-	void new_innerpack_proxy(char* &result, uint32_t& size, uint64_t uid, uint32_t type, int32_t roomid);
+	OutPackProxy(const Message& msg, const std::string& remote_node, const std::string& remote_service, const string& source_node, const string& source_service);
+	void new_innerpack_proxy(char* &result, uint32_t& size, uint64_t uid, uint32_t type, int32_t roomid, uint64_t session);
 
 	std::string m_remote_node_name;
 	std::string m_remote_service_name;
+	std::string m_source_node_name;
+	std::string m_source_service_name;
 
 	const static int kUidLen = 8;
 	const static int kSubTypeLen = 4;
 	const static int kNameLen = 2; // 远程节点与服务名称的长度
+	const static int kSessionLen = 8;
 };
 
 // 外部的协议，需要和客户端通信
@@ -176,7 +191,7 @@ void serialize_imsg_type(const Message& msg, char* &result, uint32_t& size, uint
 void serialize_imsg(const Message& msg, char* &result, uint32_t& size, uint64_t uid, const int32_t& roomid);
 
 // 用于C++服务往CServiceProxy服务发送消息
-void serialize_imsg_proxy(const Message& msg, char*& result, uint32_t& size, uint64_t uid, uint32_t sub_type, int32_t roomid, const string& remote_node, const string& remote_service);
+void serialize_imsg_proxy(const Message& msg, char*& result, uint32_t& size, uint64_t uid, uint32_t sub_type, int32_t roomid, uint64_t session, const string& remote_node, const string& remote_service, const string& source_node, const string& source_service);
 
 class TextParm
 {

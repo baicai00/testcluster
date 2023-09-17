@@ -36,7 +36,7 @@ int RpcClient::rpc_call(int32_t dest, const google::protobuf::Message& msg, cons
 	return session;
 }
 
-int RpcClient::rpc_call_proxy(int32_t dest, const google::protobuf::Message& msg, const RPCCallBack& func, int64_t uid, const string& remote_node, const string& remote_service)
+int RpcClient::rpc_call_proxy(int32_t dest, const google::protobuf::Message& msg, const RPCCallBack& func, int64_t uid, const string& remote_node, const string& remote_service, const string& source_node, const string& source_service)
 {
 	if (m_service_context == nullptr)
 	{
@@ -46,8 +46,10 @@ int RpcClient::rpc_call_proxy(int32_t dest, const google::protobuf::Message& msg
 	char* data;
 	uint32_t size;
 	int session = skynet_context_newsession(m_service_context->get_skynet_context());
-	serialize_imsg_proxy(msg, data, size, uid, SUBTYPE_RPC_SERVER, 0, remote_node, remote_service);
-	skynet_send_noleak(m_service_context->get_skynet_context(), 0, dest, PTYPE_TEXT | PTYPE_TAG_DONTCOPY, session, data, size);
+	int32_t roomid = 0;
+	// LOG(INFO) << "rpc_call_proxy session:" << session;
+	serialize_imsg_proxy(msg, data, size, uid, SUBTYPE_RPC_SERVER, roomid, session, remote_node, remote_service, source_node, source_service);
+	skynet_send_noleak(m_service_context->get_skynet_context(), 0, dest, PTYPE_TEXT | PTYPE_TAG_DONTCOPY, 0, data, size);
 	m_rpc[session] = func;
 	return session;
 }
@@ -90,6 +92,45 @@ void RpcClient::rpc_event_client(const char* data, uint32_t size, uint32_t sourc
 		it->second(msg);
 	}
 
+
+	delete msg;
+	m_rpc.erase(session);
+}
+
+void RpcClient::rpc_event_client_proxy(const char* data, uint32_t size)
+{
+	InPackCluser pack;
+	if (!pack.inner_reset(data, size))
+	{
+		log_error("dispatch message pack error");
+		return;
+	}
+
+	int session = pack.get_session();
+	std::map<int, RPCCallBack>::iterator it = m_rpc.find(session);
+	if (it == m_rpc.end())
+	{
+		return;
+	}
+	if (it->second == RPC_NULL_FUNC)
+		return;
+
+	Message* msg = pack.create_message();
+	if (msg == NULL)
+	{
+		LOG(ERROR) << "rpc client message pb error";
+		return;
+	}
+
+	LOG(INFO) << "rpc_event_client_proxy call func for msg = " << msg->GetTypeName();
+	if (m_service_context->profile())
+	{
+		it->second(msg);
+	}
+	else
+	{
+		it->second(msg);
+	}
 
 	delete msg;
 	m_rpc.erase(session);

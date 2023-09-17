@@ -258,7 +258,8 @@ void Service::service_poll(const char* data, uint32_t size, uint32_t source, int
             if (sub_type == SUBTYPE_RPC_CLIENT) {
                 m_process_uid = get_uid_from_stream(data);
                 //LOG(INFO) << "SUBTYPE_RPC_CLIENT m_process_uid = " << m_process_uid;
-                rpc_event_client(data, size, source, session);
+                // rpc_event_client(data, size, source, session);
+                rpc_event_client_proxy(data, size);
                 m_process_uid = 0;
             }
             

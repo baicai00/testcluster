@@ -1,9 +1,9 @@
 require "skynet.manager"
 local skynet = require "skynet"
 local cluster = require "bee_cluster"
-local protopack = require "protopack"
+local protopack = require "protopack_cluster"
 local protobuf = require "protobuf"
-local dispatch= require "dispatcher"
+local dispatch= require "dispatcher_cluster"
 
 
 local dispatcher
@@ -80,26 +80,29 @@ skynet.start(function()
             local cmd = args[1]
             local uid = args[2]
             -- beelog_info("TEST lua cmd:", cmd, "uid:", uid)
+            local rel_args = {}
+            table.move(args, 3, #args, 1, rel_args)
             local addrs = gtables.get_addrs(uid)
             for _, addr in pairs(addrs) do
-                skynet.redirect(addr, source, "lua", session, skynet.pack(cmd, ...))
+                skynet.redirect(addr, source, "lua", session, skynet.pack(cmd, table.unpack(rel_args)))
             end
         elseif sub_type == "text" then
             local args = table.pack(...)
             local netmsg = args[1]
             if netmsg ~= nil then
-                local datalen = string.len(netmsg) - 4 - 8 - 2 - 4 -- subtype uid namelen roomid
-                local uid = string.unpack("> L", netmsg, 5)
-
-                beelog_info("session:", session, "source:", source)
-
-                local temp_uid, temp_name, temp_msg = protopack.unpack_raw(netmsg, protobuf)
-                if naming_status_pb_name[temp_name] then
-                    dispatcher:dispatch(temp_uid, temp_name, temp_msg, session, source, protobuf)
+                local temp_ret = protopack.unpack_raw_cluster(netmsg, protobuf)
+                if naming_status_pb_name[temp_ret.pbname] then
+                    local uid = temp_ret.uid
+                    local name = temp_ret.pbname
+                    local msg = temp_ret.msg
+                    local source_node_name = temp_ret.source_node_name
+                    local source_service_name = temp_ret.source_service_name
+                    local roomid = temp_ret.roomid
+                    dispatcher:dispatch(uid, name, msg, temp_ret.session, roomid, source_node_name, source_service_name, protobuf)
                     return
                 end
 
-                local addrs = gtables.get_addrs(uid)
+                local addrs = gtables.get_addrs(temp_ret.uid)
                 for _, addr in ipairs(addrs) do
                     skynet.redirect(addr, source, "text", session, netmsg)
                 end

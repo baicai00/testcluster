@@ -12,6 +12,11 @@ message iTestPingShopREQ
     optional string ping_msg = 1;
 }
 
+message iTestPingActivityMsg
+{
+    optional string ping_msg = 1;
+}
+
 message iTestPingActivityREQ
 {
     optional string ping_msg = 1;
