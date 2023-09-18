@@ -14,8 +14,6 @@ Shop::Shop()
 
 bool Shop::shop_init(const std::string& parm)
 {
-    sscanf(parm.c_str(), "%u", &m_cservice_proxy);
-
     register_callback();
 
     return true;
@@ -65,13 +63,23 @@ void Shop::proto_test_ping_shop(Message* data, uint32_t source)
     req.set_ping_msg("Hello activity, I am shop, I use send");
     service_send_cluster(req, remote_node, remote_service);
 
-    // test2,rpc_all
+    // test2,rpc_all activity_master
     pb::iTestPingActivityREQ rpc_req;
     rpc_req.set_ping_msg("Hello activity, I am shop, I use rpc call");
     rpc_call(m_cservice_proxy, rpc_req, [this] (Message* data) mutable {
         pb::iTestPingActivityRSP * rsp = dynamic_cast<pb::iTestPingActivityRSP*>(data);
         LOG(INFO) << "iTestPingActivityRSP:" << rsp->ShortDebugString();
-    }, m_process_uid, remote_node, remote_service, "shop_master_4", "shop_master");
+    }, m_process_uid, remote_node, remote_service, m_node_name, m_master_name);
+
+    // test3,rpc_call mail_master
+    remote_node = "mail_master_6";
+    remote_service = "mail_master";
+    pb::iTestPingMailREQ mail_req;
+    mail_req.set_ping_msg("Hello mail, I am shop, I use rpc call");
+    rpc_call(m_cservice_proxy, mail_req, [this] (Message* data) mutable {
+        pb::iTestPingMailRSP * rsp = dynamic_cast<pb::iTestPingMailRSP*>(data);
+        LOG(INFO) << "iTestPingMailRSP:" << rsp->ShortDebugString();
+    }, m_process_uid, remote_node, remote_service, m_node_name, m_master_name);
 }
 
 void Shop::service_send_cluster(const Message& msg, const string& remote_node, const string& remote_service)
@@ -83,6 +91,6 @@ void Shop::service_send_cluster(const Message& msg, const string& remote_node, c
     int64_t uid = m_process_uid;
     uint32_t type = SUBTYPE_PROTOBUF;
     int32_t session = 0;
-    serialize_imsg_proxy(msg, data, size, uid, type, roomid, session, remote_node, remote_service, "shop_master_4", "shop_master");
+    serialize_imsg_proxy(msg, data, size, uid, type, roomid, session, remote_node, remote_service, m_node_name, m_master_name);
     skynet_send_noleak(m_ctx, source, m_cservice_proxy, PTYPE_TEXT | PTYPE_TAG_DONTCOPY, 0, data, size);
 }

@@ -5,6 +5,7 @@ LIB_DIRS = pb\
 
 CODE_DIRS = log \
 		shop \
+		mail \
 
 LIB_PATH = $(foreach path, $(LIB_DIRS), ${SRC_PATH}/$(path))
 CODE_PATH = $(foreach path, $(CODE_DIRS), ${SRC_PATH}/$(path))

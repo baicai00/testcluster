@@ -100,7 +100,7 @@ DispatcherStatus RpcServer::rpc_event_server(InPack& pack, uint32_t source, int 
 			return DISPATCHER_PB_ERROR;
 		}
 		m_source = source;
-		m_session = session;
+		m_session = pack.get_session();
 		m_uid = pack.get_uid();
 		LOG(INFO) << "m_source = " << m_source << " m_session = " << m_session << " m_uid = " << m_uid;
 
@@ -117,7 +117,7 @@ DispatcherStatus RpcServer::rpc_event_server(InPack& pack, uint32_t source, int 
 
 		if (rsp != NULL) {
 			LOG(INFO) << "rpc_event_server call response typename = " << rsp->GetTypeName() << " uid =  " << pack.get_uid();
-			response(rsp, source, session, pack.get_uid());
+			response(rsp, m_session, pack.get_uid(), pack.get_source_node(), pack.get_source_service(), pack.get_remote_node(), pack.get_remote_service());
 		}
 			
 		delete msg;
@@ -127,24 +127,23 @@ DispatcherStatus RpcServer::rpc_event_server(InPack& pack, uint32_t source, int 
 	return DISPATCHER_CALLBACK_ERROR;
 }
 
-RSPFunction RpcServer::get_response()
-{
-	return boost::bind(&RpcServer::response, this, _1, m_source, m_session, m_uid);
-}
+// RSPFunction RpcServer::get_response()
+// {
+// 	return boost::bind(&RpcServer::response, this, _1, m_source, m_session, m_uid);
+// }
 
-void RpcServer::rpc_init_server(ServiceContext* service_ctx)
+void RpcServer::rpc_init_server(ServiceContext* service_ctx, uint32_t proxy_handle)
 {
 	m_service_context = service_ctx;
+	m_cservice_proxy = proxy_handle;
 }
 
-void RpcServer::response(Message* msg, uint32_t dest, int session, int64_t uid)
+void RpcServer::response(Message* msg, int session, int64_t uid, const std::string& remote_node, const std::string& remote_service, const std::string& source_node, const std::string& source_service)
 {
-	// TODO add by dik
-	// char* data;
-	// uint32_t size;
-	// serialize_imsg_type(*msg, data, size, uid, SUBTYPE_RPC_CLIENT, 0);
-	// //skynet_send_noleak(m_rpc_ctx, 0, dest, PTYPE_RPC_CLIENT | PTYPE_TAG_DONTCOPY, session, data, size);
-	// skynet_send_noleak(m_service_context->get_skynet_context(), 0, dest, PTYPE_RESPONSE | PTYPE_TAG_DONTCOPY, session, data, size);
-	// log_debug("rpc call response. size:%d %s", size, msg->GetTypeName().c_str());
-	// delete msg;
+	char* data;
+	uint32_t size;
+	serialize_imsg_proxy(*msg, data, size, uid, SUBTYPE_RPC_CLIENT, 0, session, remote_node, remote_service, source_node, source_service);
+	// 注意：这里传入的session为1表示这条消息是RPC的response
+	skynet_send_noleak(m_service_context->get_skynet_context(), 0, m_cservice_proxy, PTYPE_TEXT | PTYPE_TAG_DONTCOPY, 1, data, size);
+	delete msg;
 }

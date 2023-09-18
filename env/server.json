@@ -26,6 +26,12 @@
                 "node_list":[
                     {"service_id": 5, "ip":"0.0.0.0", "port":3539, "debug_port":13539, "online": true}
                 ]
+            },
+            {
+                "name": "mail_master",
+                "node_list":[
+                    {"service_id": 6, "ip":"0.0.0.0", "port": 3541, "debug_port": 13541, "online": true}
+                ]
             }
         ]
     }
