@@ -1,4 +1,4 @@
-## TODO LIST
+## 已解决问题
 * Lux项目使用的cluster模块版本太旧
 ```sh
 基于skynet v1.6.0版本升级当前框架的cluster模块，具体如下
@@ -105,17 +105,52 @@ end)
 针对问题一：我们将应用程序生成的session打包到消息中，并发到目的地，目的进程通过这个session判断是否要回复
 针对问题二：我们把【源节点名称】【源服务名称】打包到消息中，在dispatcher.lua中，根据源节点名称、源服务名称发送回复消息
 ```
+* c++服务往c++服务发送pb协议,使用rpc_call方式
+```sh
+c++服务之间的RPC是通过RpcServer类实现的，具体是在response函数中把回复消息发送到source指定的服务；因此想要将cluster模式应用进来，需要解决以下问题：
+1.cluster节点之间直接使用socketchannel通过，无法通过skynet底层的handle，即不能使用source定位到源服务
+2.cluster模式中无法使用skynet_send直接发送消息
 
-* c++服务往c++服务发送pb协议,使用send方式(todo)
-* c++服务往以c++服务发送pb协议,使用rpc_call方式(todo)
+解决方案：
+将【源节点名】【源服务名】【目的节点名】【目的服务名】打包到消息中，将该消息转发到CServiceProxy服务，然后由CServiceProxy服务将消息发往目的节点；
+由于CServiceProxy是内部服务，因此可以使用skynet_send发送，消息的类型为PTYPE_TEXT，session固定为1，用于区分send方式的消息
+CServiceProxy处理text消息的代码如下所示：
+skynet.dispatch("text", function (session, source, netmsg)
+    if netmsg ~= nil then
+        local remote_node_name, remote_service_name = protopack.unpack_raw_remote_name(netmsg)
+        local handle = gtables.get_service_handle(remote_node_name, remote_service_name)
+        if handle then
+            if session == 0 then
+                cluster.send(remote_node_name, handle, "text", netmsg)
+            else
+                cluster.send(remote_node_name, handle, "rpc_response", netmsg)
+            end
+        else
+            beelog_error("text handler not found remote_node_name:", remote_node_name, "remote_service_name:", remote_service_name)
+        end
+    end
+end)
+```
 
-* 配置更新 （todo）
+## 待解决的问题
+* lua服务往c++服务发送文本消息（skyetext.callc）
+* lua服务往c++发送pb消息，通过call_proto方式(参考shopclass.lua)
+* c++服务定时器测试
+* 是否使用名字服务替换cluster配置，cluster配置不足的地方如下
+```sh
+1.节点启动后不会主动通知其它节点，而我们的框架中节点之间存在依赖关系，这会导致依赖关系无法实现
+2.无法使用配置实时更新节点的热更状态
+```
+
+## 其他
+* cluster配置更新
 ```sh
 1. 新启动的进程需要加载cluster配置
 2. 热更已启动进程的cluster配置
 3. 强更集群所有节点的cluster配置
 ```
-* 我热更后如何改变其它进程中缓存的我的信息（todo）
-
-
-## cluster集群模式热更流程 （todo）
+* 节点启动后广播通知其它节点,使用名字服务
+```sh
+1.集群启动时首先启动名字服务
+2.集群中的非名字服务节点启动后，往名字服务注册自己；名字服务将该服务启动的消息广播到其他服务
+```
