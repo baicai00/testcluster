@@ -39,23 +39,24 @@ public:
 	typedef std::map<std::string, Callback> CallbackMap;
 
 	RpcServer();
-	void rpc_init_server(ServiceContext*);
+	void rpc_init_server(ServiceContext*, uint32_t);
 	void rpc_regester(const string& name, const Callback& func)
 	{
 		m_callback[name] = func;
 	}
 	DispatcherStatus rpc_event_server(InPack& pack, uint32_t source, int session);
 
-	RSPFunction get_response(); //RPC返回值
+	// RSPFunction get_response(); //RPC返回值
 
 	CallbackMap m_callback;
 
 private:
 
-	void response(Message* msg, uint32_t dest, int session, int64_t uid);
+	void response(Message* msg, int session, int64_t uid, const std::string& remote_node, const std::string& remote_service, const std::string& source_node, const std::string& source_service);
 
 
 	ServiceContext* m_service_context;
+	uint32_t m_cservice_proxy;
 
 	uint32_t m_source;
 	int m_session;

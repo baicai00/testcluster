@@ -14,6 +14,13 @@ skynet.register_protocol {
     unpack = skynet.tostring,
 }
 
+skynet.register_protocol {
+    name = "rpc_response",
+    id = skynet.PTYPE_RESPONSE,
+    pack = function(...) return ... end,
+    unpack = skynet.tostring,
+}
+
 -- function gtables.get_pb_names()
 --     local pb_names = {
 --         "inner.pb",
@@ -58,11 +65,16 @@ skynet.start(function ()
     skynet.dispatch("text", function (session, source, netmsg)
         if netmsg ~= nil then
             local remote_node_name, remote_service_name = protopack.unpack_raw_remote_name(netmsg)
+            beelog_info("TEST cserverproxy recv text:",remote_node_name, remote_service_name)
             local handle = gtables.get_service_handle(remote_node_name, remote_service_name)
             if handle then
-                cluster.send(remote_node_name, handle, "text", netmsg)
+                if session == 0 then
+                    cluster.send(remote_node_name, handle, "text", netmsg)
+                else
+                    cluster.send(remote_node_name, handle, "rpc_response", netmsg)
+                end
             else
-                beelog_error("handler not found remote_node_name:", remote_node_name, "remote_service_name:", remote_service_name)
+                beelog_error("text handler not found remote_node_name:", remote_node_name, "remote_service_name:", remote_service_name)
             end
         end
     end)

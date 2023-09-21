@@ -23,7 +23,8 @@ public:
     void service_send_cluster(const Message& msg, const string& remote_node, const string& remote_service);
 
 private:
-    uint32_t m_cservice_proxy;
+    const std::string m_node_name = "shop_master_4";
+    const std::string m_master_name = "shop_master";
 };
 
 #endif

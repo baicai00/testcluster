@@ -134,6 +134,22 @@ public:
 		return m_pbname;
 	}
 
+	inline string get_remote_node() {
+		return m_remote_node_name;
+	}
+
+	inline string get_remote_service() {
+		return m_remote_service_name;
+	}
+
+	inline string get_source_node() {
+		return m_source_node_name;
+	}
+
+	inline string get_source_service() {
+		return m_source_service_name;
+	}
+
 	//得到pb包
 	Message* create_message();
 

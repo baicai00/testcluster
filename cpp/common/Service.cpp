@@ -54,9 +54,6 @@ bool Service::service_init(skynet_context* ctx, const void* parm, int len)
 	m_service_context.init_service_context(ctx);
 
 	m_ctx = ctx;
-	timer_init(this);
-	rpc_init_client(&m_service_context);
-	rpc_init_server(&m_service_context);
 
 	string sparm;
 	bool nostart = false;
@@ -76,6 +73,12 @@ bool Service::service_init(skynet_context* ctx, const void* parm, int len)
 	{
 		tparm = sparm;
 	}
+
+	sscanf(tparm.c_str(), "%u", &m_cservice_proxy);
+
+	timer_init(this);
+	rpc_init_client(&m_service_context);
+	rpc_init_server(&m_service_context, m_cservice_proxy);
 
 	// service_callback(pb::iNameListBRC::descriptor()->full_name(), boost::bind(&Service::proto_service_name_brc, this, _1, _2));
 
@@ -192,6 +195,7 @@ void Service::service_poll(const char* data, uint32_t size, uint32_t source, int
 				LOG(ERROR) << "dispatch message pack error";
 				return;
 			}
+			// LOG(INFO) << "PTYPE_RESPONSE sub_type:" << pack.get_sub_type() << " pbname:" << pack.get_pbname();
 			uint32_t sub_type = pack.get_sub_type();
             if (sub_type == SUBTYPE_RPC_CLIENT) {
                 m_process_uid = pack.get_uid();

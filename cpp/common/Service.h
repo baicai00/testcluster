@@ -145,6 +145,8 @@ protected:
 	int m_msg_type;
 	string m_msg_data;
 	int m_service_roomid;
+
+	uint32_t m_cservice_proxy; // add by dik
 private:
 
 	bool m_service_started;
