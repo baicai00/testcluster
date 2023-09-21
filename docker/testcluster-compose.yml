@@ -8,6 +8,8 @@ services:
       dockerfile: Dockerfile.web
     container_name: testcluster_node
     tty: true
+    hostname: game-server
+    command: /bin/bash -c "cd /work/publish && ./run start all && tail -f /dev/null"
     volumes:
       - ~/testcluster:/work:rw
     networks:

@@ -1,7 +1,6 @@
 FROM ubuntu:22.04
 
 WORKDIR /work
-# COPY ./boost_1_55_0.tar.gz /work/
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -y && \
@@ -32,7 +31,7 @@ RUN apt-get update -y && \
     sh bootstrap.sh --with-libraries=thread --prefix=/usr/ && ./b2 install && \
     # install lua
     cd /work && \
-    wget https://www.lua.org/ftp/lua-5.3.6.tar.gz && \
+    wget --no-check-certificate https://www.lua.org/ftp/lua-5.3.6.tar.gz && \
     tar -zxf lua-5.3.6.tar.gz && cd lua-5.3.6 && make linux && make install && \
     # 清理
     rm -rf /work/* && \
